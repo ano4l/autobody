@@ -1,0 +1,67 @@
+Issue Type,Summary,Description,Priority,Labels,Status,Component
+Epic,Foundation Platform and Security,"Core backend platform, security model, environments, and database baseline from PRD architecture.",Highest,"backend,phase-1,completed",Done,platform
+Task,Create backend service skeleton and dependency stack,"Set up Spring Boot backend with required core dependencies, build tooling, and standard project structure.",Highest,"backend,completed",Done,platform
+Task,Set up environments and deployment basics,"Create local and production-ready config patterns, docker assets, and startup documentation.",High,"devops,completed",Done,platform
+Task,Implement authentication and role-based access control,"Deliver JWT auth, roles, and endpoint protection for Admin, Salesperson, Warehouse, and View-only users.",Highest,"security,completed",Done,security
+Task,Establish shared API patterns and exception handling,"Standardize API response envelopes, paging responses, and global error handling.",High,"backend,completed",Done,platform
+Task,Deliver user management and admin bootstrap,"Implement user CRUD, profile endpoint, and initial admin bootstrap flow.",High,"user-management,completed",Done,user
+Task,Finalize initial database schema migrations,"Ship core relational schema migrations covering users, inventory, messaging, orders, and POS sessions.",Highest,"database,completed",Done,database
+Epic,Inventory and Stock Operations,"Inventory catalog, suppliers, stock control, and operational stock auditability.",Highest,"inventory,phase-1-2",In Progress,inventory
+Task,Implement supplier management,"Deliver supplier CRUD and searchable supplier listing for procurement workflows.",Medium,"inventory,completed",Done,inventory
+Task,Implement parts catalog management,"Deliver parts CRUD, search/filter, and low-stock visibility endpoints.",Highest,"inventory,completed",Done,inventory
+Task,Add bulk import for parts catalog,"Support CSV import with validation and update/create behavior for onboarding inventory.",Medium,"inventory,completed",Done,inventory
+Task,Implement stock movement logging and atomic stock updates,"Record receives, sales, write-offs, and adjustments with audit data and safe stock mutation.",Highest,"inventory,completed",Done,inventory
+Task,Implement low-stock notification workflow,"Generate staff-facing low-stock alerts and configurable threshold rules.",Medium,"inventory,alerts",In Progress,inventory
+Task,Implement supplier reorder workflow,"Track reorder candidates, reorder status, and supplier lead-time based restock planning.",Medium,"inventory,reorder",To Do,inventory
+Epic,Customer Intake and WhatsApp Commerce,"Automated customer intake over WhatsApp with escalation to human operators.",Highest,"whatsapp,phase-2",In Progress,whatsapp
+Task,Implement customer profile management,"Create customer records with source tracking and vehicle metadata.",High,"customer,completed",Done,customer
+Task,Implement WhatsApp webhook verification and ingestion,"Add secure webhook verification and inbound message ingestion endpoints.",Highest,"whatsapp,completed",Done,whatsapp
+Task,Persist conversations and message history,"Store complete inbound/outbound conversation timeline for audit and operator takeover.",High,"whatsapp,completed",Done,whatsapp
+Task,Implement Redis-backed bot session state,"Maintain bot state, attempts, and expiry to support multi-step conversations.",High,"whatsapp,completed",Done,whatsapp
+Task,Implement outbound WhatsApp response client,"Enable system-generated WhatsApp responses through official Meta integration.",High,"whatsapp,completed",Done,whatsapp
+Task,Implement full guided intake flow,"Capture vehicle details, required part details, and attachments through structured bot prompts.",Highest,"whatsapp,intake,completed",Done,whatsapp
+Task,Implement real-time stock check reply flow,"Respond to customer with in-stock or out-of-stock outcome based on live inventory.",Highest,"whatsapp,stock-check,completed",Done,whatsapp
+Task,Implement checkout-link handoff flow,"Send checkout links when stock is available and capture conversion intent.",High,"whatsapp,commerce",To Do,whatsapp
+Task,Implement alternatives and sourcing-request flow,"Offer alternatives or log sourcing requests when requested part is unavailable.",High,"whatsapp,sourcing",In Progress,whatsapp
+Task,Implement escalation queue logic,"Flag complex conversations and route them to staff with full context.",Highest,"whatsapp,escalation,completed",Done,whatsapp
+Task,Implement escalation timeout and retry jobs,"Add scheduled escalation triggers based on inactivity or failed attempts.",Medium,"whatsapp,quartz,completed",Done,whatsapp
+Epic,POS and Order Management,"Walk-in POS, order processing, and receipt generation tied to stock operations.",Highest,"pos,orders,phase-1-3",In Progress,orders
+Task,Implement order domain and order APIs,"Create order and order-item lifecycle APIs for internal operations.",High,"orders,completed",Done,orders
+Task,Implement atomic stock decrement on order creation,"Ensure every successful sale mutates stock and logs inventory movement.",Highest,"orders,completed",Done,orders
+Task,Implement POS session management,"Support open, active, and close POS sessions for cashier reconciliation.",Medium,"pos,completed",Done,pos
+Task,Implement receipt PDF generation and download,"Generate printable receipts for completed orders.",Medium,"receipts,completed",Done,orders
+Task,Implement payment mode handling in POS,"Capture cash/card/EFT payment metadata at transaction time.",High,"pos,payments",To Do,pos
+Task,Implement POS settlement and day-end reconciliation view,"Provide cash float reconciliation and discrepancy tracking.",Medium,"pos,reconciliation",To Do,pos
+Task,Implement order fulfillment state transitions,"Track pending, confirmed, fulfilled, cancelled, and refunded transitions with audit.",Medium,"orders,workflow",To Do,orders
+Epic,Shopify and Online Store Integration,"Integration between local platform and Shopify for catalog, checkout, and order sync.",High,"shopify,phase-4",In Progress,shopify
+Task,Implement Shopify webhook verification endpoint,"Validate incoming Shopify signatures before processing.",High,"shopify,completed",Done,shopify
+Task,Implement Shopify order-created import flow,"Ingest online order events into internal order pipeline.",High,"shopify,completed",Done,shopify
+Task,Implement Shopify sync service and API client scaffold,"Provide initial service layer for product/inventory sync operations.",Medium,"shopify,completed",Done,shopify
+Task,Implement scheduled Shopify sync job,"Run periodic sync jobs for platform-to-shopify updates.",Medium,"shopify,completed",Done,shopify
+Task,Implement bidirectional inventory synchronization,"Keep inventory quantities aligned between internal stock and Shopify.",Highest,"shopify,inventory-sync",To Do,shopify
+Task,Implement Shopify checkout-link generation strategy,"Standardize checkout link creation and mapping to internal part context.",Medium,"shopify,commerce",To Do,shopify
+Task,Implement website part request submission handling,"Ingest website part-request forms into sourcing and conversation workflows.",Medium,"shopify,website",To Do,shopify
+Epic,Operator Dashboard and Internal Tools,"Role-based internal dashboard for inventory, conversations, orders, POS, and operations.",Highest,"dashboard,phase-3",In Progress,dashboard
+Task,Implement dashboard authentication and role-based navigation,"Build role-aware navigation and route access for internal staff.",Highest,"dashboard,auth,completed",Done,dashboard
+Task,Implement live inventory management screens,"Enable inventory search, edits, restock actions, and movement drill-down.",High,"dashboard,inventory",In Progress,dashboard
+Task,Implement WhatsApp inbox and takeover interface,"Show active conversations and allow seamless human takeover.",Highest,"dashboard,whatsapp",In Progress,dashboard
+Task,Implement order operations panel,"Provide order listing, status updates, and fulfillment workflow controls.",High,"dashboard,orders",In Progress,dashboard
+Task,Implement POS terminal UI in dashboard,"Enable walk-in sales flow from dashboard interface.",High,"dashboard,pos,completed",Done,dashboard
+Task,Implement escalation queue view,"Prioritize and manage conversations requiring urgent human action.",High,"dashboard,escalation,completed",Done,dashboard
+Task,Implement broadcast promotions tool,"Support posting promotions to business WhatsApp communication channels.",Medium,"dashboard,broadcast",To Do,dashboard
+Epic,Reporting and Management Insights,"Operational reporting for sales, stock health, and margin visibility.",High,"reporting,phase-5",Done,analytics
+Task,Implement sales summary reporting,"Deliver daily, weekly, and monthly sales totals and trends.",High,"reports,sales,completed",Done,analytics
+Task,Implement top-moving parts reporting,"Show highest-volume parts by selected period.",Medium,"reports,inventory,completed",Done,analytics
+Task,Implement dead-stock reporting,"Surface slow/non-moving inventory items for liquidation or review.",Medium,"reports,inventory,completed",Done,analytics
+Task,Implement gross margin reporting,"Provide margin visibility by item, order, and period.",Medium,"reports,margin,completed",Done,analytics
+Task,Implement management dashboard widgets,"Expose key operational KPIs for executive oversight.",Medium,"reports,dashboard,completed",Done,analytics
+Epic,Public Website and Customer Experience,"Public site, catalog, and customer self-service paths.",High,"website,phase-4",In Progress,web
+Task,Implement mobile-first marketing website pages,"Build services, contact, and business information pages.",Medium,"website,content,completed",Done,web
+Task,Implement online catalog browsing experience,"Expose searchable product catalog powered by live inventory data.",High,"website,catalog",To Do,web
+Task,Implement website checkout experience via Shopify,"Route customer purchases through secure Shopify checkout.",High,"website,checkout",To Do,web
+Task,Implement customer part-request form,"Capture custom part requests and route to sourcing workflow.",Medium,"website,lead-capture",To Do,web
+Epic,Quality, Deployment, and Handover,"Final QA, production readiness, go-live, and client training commitments from PRD.",High,"delivery,qa,handover",To Do,delivery
+Task,Execute end-to-end QA across all modules,"Validate customer journey, staff operations, integrations, and security paths.",High,"qa",To Do,delivery
+Task,Prepare production deployment and runbooks,"Finalize infrastructure setup, environment hardening, and operations documentation.",High,"deployment",To Do,delivery
+Task,Perform stakeholder UAT and sign-off cycle,"Run UAT sessions, capture feedback, and complete acceptance closure.",Medium,"uat",To Do,delivery
+Task,Deliver handover training and ownership package,"Provide source handover, admin training, and operational onboarding.",Medium,"handover",To Do,delivery
