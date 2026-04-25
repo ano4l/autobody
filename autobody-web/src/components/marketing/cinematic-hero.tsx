@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 
 const VIMEO_ID = "1186412193";
 // background=1 strips chrome and auto-loops/mutes the player.
-const VIMEO_SRC = `https://player.vimeo.com/video/${VIMEO_ID}?background=1&autoplay=1&loop=1&muted=1&autopause=0&dnt=1&transparent=0`;
+const VIMEO_SRC = `https://player.vimeo.com/video/${VIMEO_ID}?background=1&autoplay=1&loop=1&muted=1&autopause=0&dnt=1&transparent=0&quality=1080p`;
 const HERO_POSTER =
   "https://images.unsplash.com/photo-1544636331-e26879cd4d9b?auto=format&fit=crop&w=1800&q=72";
 
@@ -15,6 +15,12 @@ export function CinematicHero() {
   const [make, setMake] = useState("");
   const [model, setModel] = useState("");
   const [year, setYear] = useState("");
+  const [videoReady, setVideoReady] = useState(false);
+
+  useEffect(() => {
+    const fallback = window.setTimeout(() => setVideoReady(true), 2800);
+    return () => window.clearTimeout(fallback);
+  }, []);
 
   useEffect(() => {
     const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -98,6 +104,7 @@ export function CinematicHero() {
             title="Cinematic background"
             allow="autoplay; fullscreen; picture-in-picture"
             loading="eager"
+            onLoad={() => window.setTimeout(() => setVideoReady(true), 450)}
             className="hero-iframe absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
             style={{
               width: "max(100vw, calc(100vh * 16 / 9))",
@@ -129,6 +136,27 @@ export function CinematicHero() {
         {/* Speed lines */}
         <div className="pointer-events-none absolute left-0 top-[40%] h-px w-full bg-gradient-to-r from-transparent via-[#2e4de0]/35 to-transparent" />
         <div className="pointer-events-none absolute left-0 top-[62%] h-px w-full bg-gradient-to-r from-transparent via-white/12 to-transparent" />
+      </div>
+
+      <div
+        className={`pointer-events-none absolute inset-0 z-20 grid place-items-center bg-[#03060a]/92 backdrop-blur-sm transition-all duration-700 ${
+          videoReady ? "opacity-0" : "opacity-100"
+        }`}
+        aria-hidden="true"
+      >
+        <div className="flex flex-col items-center gap-5">
+          <div className="relative h-20 w-20">
+            <div className="absolute inset-0 rounded-full border border-white/15" />
+            <div className="hero-wheel absolute inset-2 rounded-full border-[10px] border-[#2e4de0] border-t-white border-r-[#ef3434] shadow-[0_0_44px_rgba(46,77,224,0.42)]" />
+            <div className="absolute left-1/2 top-1/2 h-4 w-4 -translate-x-1/2 -translate-y-1/2 rounded-full bg-white" />
+          </div>
+          <div className="h-px w-52 overflow-hidden bg-white/10">
+            <div className="hero-road-line h-full w-24 bg-gradient-to-r from-transparent via-[#2e4de0] to-transparent" />
+          </div>
+          <p className="font-display text-xs font-semibold uppercase tracking-[0.32em] text-white/75">
+            Loading showroom
+          </p>
+        </div>
       </div>
 
       <div className="relative z-10 mx-auto max-w-[1400px] px-5 pt-6 lg:px-8">
@@ -240,6 +268,29 @@ export function CinematicHero() {
       </div>
 
       <style jsx>{`
+        @keyframes heroWheelSpin {
+          to {
+            transform: rotate(360deg);
+          }
+        }
+
+        @keyframes heroRoadLine {
+          0% {
+            transform: translateX(-110%);
+          }
+          100% {
+            transform: translateX(240%);
+          }
+        }
+
+        .hero-wheel {
+          animation: heroWheelSpin 0.82s linear infinite;
+        }
+
+        .hero-road-line {
+          animation: heroRoadLine 0.9s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+        }
+
         @keyframes floatOrb {
           0%,
           100% {
