@@ -112,7 +112,7 @@ export function CinematicHero() {
               minWidth: "100%",
               minHeight: "100%",
               border: 0,
-              filter: "blur(2.5px) saturate(1.05)",
+              filter: "blur(0.6px) saturate(1.08) contrast(1.04)",
               transform: "translate(-50%, -50%) scale(1.06)",
               pointerEvents: "none",
             }}
@@ -139,22 +139,41 @@ export function CinematicHero() {
       </div>
 
       <div
-        className={`pointer-events-none absolute inset-0 z-20 grid place-items-center bg-[#03060a]/92 backdrop-blur-sm transition-all duration-700 ${
+        className={`pointer-events-none fixed inset-0 z-[80] grid min-h-screen place-items-center overflow-hidden bg-[#03060a] text-white transition-all duration-700 ${
           videoReady ? "opacity-0" : "opacity-100"
         }`}
         aria-hidden="true"
       >
-        <div className="flex flex-col items-center gap-5">
-          <div className="relative h-20 w-20">
-            <div className="absolute inset-0 rounded-full border border-white/15" />
-            <div className="hero-wheel absolute inset-2 rounded-full border-[10px] border-[#2e4de0] border-t-white border-r-[#ef3434] shadow-[0_0_44px_rgba(46,77,224,0.42)]" />
-            <div className="absolute left-1/2 top-1/2 h-4 w-4 -translate-x-1/2 -translate-y-1/2 rounded-full bg-white" />
+        <div className="absolute inset-0">
+          <img
+            src={HERO_POSTER}
+            alt=""
+            loading="eager"
+            decoding="async"
+            className="h-full w-full object-cover opacity-35"
+          />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_42%,rgba(46,77,224,0.18),transparent_34%),linear-gradient(180deg,rgba(3,6,10,0.74),#03060a)]" />
+        </div>
+        <div className="relative flex w-[min(88vw,440px)] flex-col items-center border border-white/12 bg-white/[0.04] px-8 py-10 text-center shadow-[0_30px_120px_-50px_rgba(46,77,224,0.75)] backdrop-blur-xl">
+          <div className="mb-7 flex items-center gap-3">
+            <span className="grid h-9 w-9 place-items-center bg-[#2e4de0] font-display text-xs font-bold">
+              FS
+            </span>
+            <span className="font-display text-lg font-semibold">Ferreira&apos;s.</span>
           </div>
-          <div className="h-px w-52 overflow-hidden bg-white/10">
+          <div className="relative h-24 w-24">
+            <div className="absolute inset-0 rounded-full border border-white/15" />
+            <div className="hero-wheel absolute inset-2 rounded-full border-[12px] border-[#2e4de0] border-t-white border-r-[#ef3434] shadow-[0_0_54px_rgba(46,77,224,0.5)]" />
+            <div className="absolute left-1/2 top-1/2 h-5 w-5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-white" />
+          </div>
+          <div className="mt-6 h-px w-full overflow-hidden bg-white/10">
             <div className="hero-road-line h-full w-24 bg-gradient-to-r from-transparent via-[#2e4de0] to-transparent" />
           </div>
-          <p className="font-display text-xs font-semibold uppercase tracking-[0.32em] text-white/75">
-            Loading showroom
+          <p className="mt-6 font-display text-xs font-semibold uppercase tracking-[0.32em] text-white/80">
+            Loading HD showroom
+          </p>
+          <p className="mt-3 max-w-xs text-sm leading-6 text-white/55">
+            Preparing the cinematic hero video for the homepage.
           </p>
         </div>
       </div>
