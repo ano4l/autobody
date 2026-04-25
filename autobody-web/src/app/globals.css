@@ -92,12 +92,14 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
+    overflow-x: clip;
   }
 
   body {
     @apply bg-background text-foreground font-sans;
     font-feature-settings: "cv11", "ss01", "ss03";
     min-height: 100vh;
+    overflow-x: clip;
   }
 
   h1, h2, h3, h4 {
@@ -443,6 +445,30 @@ html.lenis body {
 
 html {
   scroll-behavior: smooth;
+}
+
+@media (max-width: 767px) {
+  html,
+  body {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: clip;
+  }
+
+  [data-scroll-container],
+  main,
+  section {
+    max-width: 100vw;
+  }
+
+  .reveal-ready [data-reveal],
+  .reveal-ready [data-reveal="hero"],
+  .scroll-drift,
+  .depth-1,
+  .depth-2,
+  .depth-3 {
+    transform: none !important;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

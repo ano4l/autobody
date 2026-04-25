@@ -24,6 +24,7 @@ export function CinematicHero() {
 
   useEffect(() => {
     const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const isTouchMobile = window.matchMedia("(max-width: 767px), (pointer: coarse)").matches;
     if (prefersReduced) return;
 
     let cleanup: (() => void) | undefined;
@@ -51,29 +52,31 @@ export function CinematicHero() {
           .from(".hero-finder", { y: 18, duration: 0.45, clearProps: "transform" }, 0.08)
           .from(".scroll-cue", { y: 8, duration: 0.45, clearProps: "transform" }, 0.65);
 
-        gsap.to(".hero-video-layer", {
-          yPercent: 18,
-          scale: 1.08,
-          ease: "none",
-          scrollTrigger: {
-            trigger: heroRef.current,
-            start: "top top",
-            end: "bottom top",
-            scrub: true,
-          },
-        });
+        if (!isTouchMobile) {
+          gsap.to(".hero-video-layer", {
+            yPercent: 18,
+            scale: 1.08,
+            ease: "none",
+            scrollTrigger: {
+              trigger: heroRef.current,
+              start: "top top",
+              end: "bottom top",
+              scrub: true,
+            },
+          });
 
-        gsap.to(".hero-content-scroll", {
-          yPercent: -12,
-          opacity: 0.92,
-          ease: "power2.in",
-          scrollTrigger: {
-            trigger: heroRef.current,
-            start: "25% top",
-            end: "bottom top",
-            scrub: 1,
-          },
-        });
+          gsap.to(".hero-content-scroll", {
+            yPercent: -12,
+            opacity: 0.92,
+            ease: "power2.in",
+            scrollTrigger: {
+              trigger: heroRef.current,
+              start: "25% top",
+              end: "bottom top",
+              scrub: 1,
+            },
+          });
+        }
       }, heroRef);
 
       cleanup = () => ctx.revert();
@@ -86,7 +89,7 @@ export function CinematicHero() {
     <section
       ref={heroRef}
       id="home"
-      className="relative overflow-hidden bg-[#03060a] text-white"
+      className="relative max-w-full overflow-hidden bg-[#03060a] text-white"
     >
       {/* Vimeo background — slightly blurred so text stays legible */}
       <div className="hero-video-layer absolute inset-0 z-0" aria-hidden="true">
@@ -105,7 +108,7 @@ export function CinematicHero() {
             allow="autoplay; fullscreen; picture-in-picture"
             loading="eager"
             onLoad={() => window.setTimeout(() => setVideoReady(true), 450)}
-            className="hero-iframe absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+            className="hero-iframe absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 md:block"
             style={{
               width: "max(100vw, calc(100vh * 16 / 9))",
               height: "max(56.25vw, 100vh)",
@@ -156,7 +159,7 @@ export function CinematicHero() {
       <div className="relative z-10 mx-auto max-w-[1400px] px-5 pt-6 lg:px-8">
         {/* Vehicle finder */}
         <div className="hero-finder mx-auto max-w-[920px] border border-white/15 bg-[#151a23]/92 shadow-[0_24px_80px_-48px_rgba(0,0,0,0.9)] backdrop-blur">
-          <div className="flex flex-wrap items-center justify-between gap-2 border-b border-white/10 px-5 py-3">
+          <div className="flex flex-col gap-1 border-b border-white/10 px-4 py-3 sm:flex-row sm:items-center sm:justify-between sm:gap-2 sm:px-5">
             <span className="text-xs uppercase tracking-[0.2em] text-white/60">
               Select Your Car
             </span>
@@ -208,7 +211,7 @@ export function CinematicHero() {
               href={`/shop${make ? `?brand=${encodeURIComponent(make)}` : ""}${
                 model ? `${make ? "&" : "?"}model=${encodeURIComponent(model)}` : ""
               }`}
-              className="inline-flex items-center justify-center bg-[#ef3434] px-8 py-3 text-sm font-semibold text-white transition hover:bg-[#f04444]"
+              className="inline-flex min-h-12 items-center justify-center bg-[#ef3434] px-8 py-3 text-sm font-semibold text-white transition hover:bg-[#f04444]"
             >
               Search Now
             </motion.a>
@@ -216,11 +219,11 @@ export function CinematicHero() {
         </div>
 
         {/* Hero content — fully centered */}
-        <div className="hero-content hero-content-scroll relative flex min-h-[60vh] flex-col items-center justify-center gap-6 py-16 text-center opacity-100 lg:py-20">
-          <p className="hero-kicker text-[11px] font-bold uppercase tracking-[0.32em] text-white/85 drop-shadow-[0_2px_14px_rgba(0,0,0,0.9)]">
+        <div className="hero-content hero-content-scroll relative flex min-h-[58vh] flex-col items-center justify-center gap-5 py-14 text-center opacity-100 lg:min-h-[60vh] lg:gap-6 lg:py-20">
+          <p className="hero-kicker text-[10px] font-bold uppercase tracking-[0.2em] text-white/85 drop-shadow-[0_2px_14px_rgba(0,0,0,0.9)] sm:text-[11px] sm:tracking-[0.32em]">
             Premium collision repair parts
           </p>
-          <h1 className="font-display text-4xl uppercase leading-[0.95] text-white drop-shadow-[0_5px_34px_rgba(0,0,0,0.95)] sm:text-6xl lg:text-[80px]">
+          <h1 className="max-w-full break-words font-display text-[2.7rem] uppercase leading-[0.95] text-white drop-shadow-[0_5px_34px_rgba(0,0,0,0.95)] sm:text-6xl lg:text-[80px]">
             <span className="hero-word block">Quality</span>
             <span className="hero-word block text-[#ef3434] drop-shadow-[0_0_30px_rgba(239,52,52,0.45)]">
               Autobody
@@ -228,15 +231,15 @@ export function CinematicHero() {
             <span className="hero-word block">Parts For</span>
             <span className="hero-word block text-white">Every Repair</span>
           </h1>
-          <p className="hero-sub mx-auto mt-2 max-w-xl text-base font-medium leading-8 text-white/90 drop-shadow-[0_2px_18px_rgba(0,0,0,0.95)]">
+          <p className="hero-sub mx-auto mt-1 max-w-xl text-sm font-medium leading-7 text-white/90 drop-shadow-[0_2px_18px_rgba(0,0,0,0.95)] sm:mt-2 sm:text-base sm:leading-8">
             Reliable used and new autobody parts for every repair, restoration, and everyday
             maintenance need — sourced from trusted suppliers since 2009.
           </p>
-          <div className="hero-cta mt-2 flex flex-wrap items-center justify-center gap-4">
+          <div className="hero-cta mt-2 flex w-full flex-col items-stretch justify-center gap-3 sm:w-auto sm:flex-row sm:flex-wrap sm:items-center sm:gap-4">
             <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
               <Link
                 href={"/shop" as "/shop"}
-                className="inline-block bg-[#ef3434] px-8 py-4 text-xs font-semibold uppercase tracking-[0.2em] text-white transition hover:bg-[#f04444] hover:shadow-[0_18px_50px_-12px_rgba(239,52,52,0.5)]"
+                className="block bg-[#ef3434] px-8 py-4 text-center text-xs font-semibold uppercase tracking-[0.16em] text-white transition hover:bg-[#f04444] hover:shadow-[0_18px_50px_-12px_rgba(239,52,52,0.5)] sm:inline-block sm:tracking-[0.2em]"
               >
                 Shop Now
               </Link>
@@ -244,7 +247,7 @@ export function CinematicHero() {
             <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
               <Link
                 href={"/contact" as "/contact"}
-                className="inline-block border border-white/25 bg-white/5 backdrop-blur-md px-8 py-4 text-xs font-semibold uppercase tracking-[0.2em] text-white transition hover:bg-white hover:text-[#0d1016]"
+                className="block border border-white/25 bg-white/5 px-8 py-4 text-center text-xs font-semibold uppercase tracking-[0.16em] text-white backdrop-blur-md transition hover:bg-white hover:text-[#0d1016] sm:inline-block sm:tracking-[0.2em]"
               >
                 Request a Quote
               </Link>

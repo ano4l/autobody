@@ -387,7 +387,69 @@ export function InventorySection() {
           </div>
         ) : null}
 
-        <div className="overflow-x-auto">
+        <div className="divide-y divide-border md:hidden">
+          {filtered.map((item) => {
+            const health = stockHealth(item);
+            const selected = selectedIds.includes(item.id);
+            return (
+              <article key={`mobile-${item.id}`} className={cn("p-4", selected && "bg-clay-50/60")}>
+                <div className="flex items-start gap-3">
+                  <input type="checkbox" checked={selected} onChange={() => toggleSelected(item.id)} className="mt-1 h-4 w-4 rounded border-border" />
+                  <img src={item.image} alt="" className="h-20 w-24 shrink-0 rounded-lg object-cover" />
+                  <div className="min-w-0 flex-1">
+                    <div className="flex flex-wrap items-center gap-1.5">
+                      <Badge tone={health.tone} dot>{health.label}</Badge>
+                      <Badge tone="ink">ABC {item.velocity}</Badge>
+                    </div>
+                    <h3 className="mt-2 text-sm font-semibold leading-tight">{item.name}</h3>
+                    <p className="mt-1 text-xs text-muted-foreground">{item.sku} - {item.condition}</p>
+                  </div>
+                </div>
+                <div className="mt-4 grid grid-cols-2 gap-2 text-sm">
+                  <div className="rounded-lg bg-background p-3">
+                    <p className="text-xs text-muted-foreground">Available</p>
+                    <p className="font-semibold">{item.available} units</p>
+                    <p className="text-xs text-muted-foreground">{item.reserved} reserved</p>
+                  </div>
+                  <div className="rounded-lg bg-background p-3">
+                    <p className="text-xs text-muted-foreground">Reorder</p>
+                    <p className={cn("font-semibold", item.stock <= item.reorderAt && "text-destructive")}>Min {item.reorderAt}</p>
+                    <p className="text-xs text-muted-foreground">{item.daysCover === 999 ? "No sales" : `${item.daysCover} days cover`}</p>
+                  </div>
+                  <div className="rounded-lg bg-background p-3">
+                    <p className="text-xs text-muted-foreground">Price</p>
+                    <p className="font-semibold">{formatCurrency(item.price)}</p>
+                    <p className="text-xs text-muted-foreground">{item.margin}% margin</p>
+                  </div>
+                  <div className="rounded-lg bg-background p-3">
+                    <p className="text-xs text-muted-foreground">Bin</p>
+                    <p className="font-semibold">{item.location}</p>
+                    <p className="truncate text-xs text-muted-foreground">{item.supplier}</p>
+                  </div>
+                </div>
+                <p className="mt-3 text-xs text-muted-foreground">{item.brand} {item.model} - {item.compatibility}</p>
+                <div className="mt-3 grid grid-cols-3 gap-2">
+                  <Button variant="outline" size="sm" onClick={() => setEditingId(editingId === item.id ? null : item.id)}>Edit</Button>
+                  <Button size="sm" onClick={() => updateItem(item.id, { stock: item.stock + 5, lastMovement: "Receipt by Jan Ferreira, just now" })}>Receive</Button>
+                  <Button variant="danger" size="sm" onClick={() => setItems((prev) => prev.filter((candidate) => candidate.id !== item.id))}>Delete</Button>
+                </div>
+                {editingId === item.id ? (
+                  <div className="mt-3 grid gap-2 rounded-lg border border-border bg-background p-3">
+                    <input value={item.name} onChange={(event) => updateItem(item.id, { name: event.target.value })} className="h-9 rounded-lg border border-border bg-card px-3 text-sm" />
+                    <input value={item.sku} onChange={(event) => updateItem(item.id, { sku: event.target.value })} className="h-9 rounded-lg border border-border bg-card px-3 text-sm" />
+                    <div className="grid grid-cols-2 gap-2">
+                      <input type="number" value={item.price} onChange={(event) => updateItem(item.id, { price: Number(event.target.value) })} className="h-9 rounded-lg border border-border bg-card px-3 text-sm" />
+                      <input type="number" value={item.stock} onChange={(event) => updateItem(item.id, { stock: Number(event.target.value) })} className="h-9 rounded-lg border border-border bg-card px-3 text-sm" />
+                    </div>
+                    <Button variant="secondary" size="sm" onClick={() => setEditingId(null)}>Save changes</Button>
+                  </div>
+                ) : null}
+              </article>
+            );
+          })}
+        </div>
+
+        <div className="hidden overflow-x-auto md:block">
           <table className="w-full min-w-[1320px] text-left text-sm">
             <thead className="bg-secondary/70 text-xs uppercase tracking-wide text-muted-foreground">
               <tr>

@@ -7,7 +7,8 @@ export function SmoothScrollProvider({ children }: { children: ReactNode }) {
     if (typeof window === "undefined") return;
 
     const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (prefersReduced) return;
+    const isTouchMobile = window.matchMedia("(max-width: 767px), (pointer: coarse)").matches;
+    if (prefersReduced || isTouchMobile) return;
 
     let cleanup: (() => void) | undefined;
 

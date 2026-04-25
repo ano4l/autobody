@@ -32,9 +32,9 @@ export function DashboardHeader({ activeSection, darkMode, onToggleDarkMode }: H
   const [searchFocused, setSearchFocused] = useState(false);
 
   return (
-    <header className="h-16 border-b border-border bg-background/80 backdrop-blur-sm sticky top-0 z-30 flex items-center justify-between px-6">
-      <div className="flex items-center gap-6">
-        <h1 className="text-xl font-semibold text-foreground">
+    <header className="sticky top-0 z-30 flex min-h-16 items-center justify-between gap-3 border-b border-border bg-background/90 px-4 py-3 backdrop-blur-sm md:px-6">
+      <div className="min-w-0 flex-1 md:flex md:items-center md:gap-6">
+        <h1 className="truncate text-lg font-semibold text-foreground md:text-xl">
           {sectionTitles[activeSection]}
         </h1>
         <div className="hidden md:flex items-center gap-2 text-sm text-muted-foreground">
@@ -43,10 +43,10 @@ export function DashboardHeader({ activeSection, darkMode, onToggleDarkMode }: H
         </div>
       </div>
 
-      <div className="flex items-center gap-3">
+      <div className="flex shrink-0 items-center gap-2 md:gap-3">
         <div
           className={cn(
-            "relative flex items-center transition-all duration-300",
+            "relative hidden items-center transition-all duration-300 sm:flex",
             searchFocused ? "w-64" : "w-48",
           )}
         >

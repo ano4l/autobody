@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback, Suspense } from "react";
+import { useState, useEffect, useCallback, Suspense, type ElementType } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { DashboardSidebar } from "@/components/dashboard-v2/sidebar";
 import { DashboardHeader } from "@/components/dashboard-v2/header";
@@ -21,10 +21,20 @@ import { SettingsSection } from "@/components/dashboard-v2/sections/settings";
 import type { Section } from "@/components/dashboard-v2/types";
 import { clearSession } from "@/lib/auth";
 import { getDashboardStats } from "@/lib/dashboard-autobody-seed";
+import { BarChart3, Boxes, LayoutDashboard, MessageCircle, ShoppingCart } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 const VALID: Section[] = [
   "overview", "inventory", "pos", "orders", "conversations", "escalations", "suppliers", "broadcast", "reviews", "reports",
   "audit", "notifications", "faq", "settings",
+];
+
+const MOBILE_NAV: Array<{ id: Section; label: string; icon: ElementType }> = [
+  { id: "overview", label: "Overview", icon: LayoutDashboard },
+  { id: "inventory", label: "Stock", icon: Boxes },
+  { id: "pos", label: "POS", icon: ShoppingCart },
+  { id: "conversations", label: "Inbox", icon: MessageCircle },
+  { id: "reports", label: "Reports", icon: BarChart3 },
 ];
 
 export default function DashboardPage() {
@@ -127,7 +137,7 @@ function DashboardShell() {
   };
 
   return (
-    <div className="flex min-h-screen bg-background">
+    <div className="flex min-h-screen overflow-x-clip bg-background">
       <DashboardSidebar
         activeSection={activeSection}
         onSectionChange={setActiveSection}
@@ -137,8 +147,8 @@ function DashboardShell() {
         pendingCount={pendingCount}
       />
       <div
-        className={`flex-1 flex flex-col transition-all duration-300 ease-out ${
-          sidebarCollapsed ? "ml-[72px]" : "ml-[260px]"
+        className={`flex min-w-0 flex-1 flex-col transition-all duration-300 ease-out ${
+          sidebarCollapsed ? "md:ml-[72px]" : "md:ml-[260px]"
         }`}
       >
         <DashboardHeader
@@ -146,14 +156,35 @@ function DashboardShell() {
           darkMode={darkMode}
           onToggleDarkMode={toggleDarkMode}
         />
-        <main className="flex-1 p-6 overflow-auto">
+        <main className="min-w-0 flex-1 overflow-x-clip p-4 pb-24 md:p-6 md:pb-6">
           <div
             key={activeSection}
-            className="animate-in fade-in slide-in-from-bottom-4 duration-500"
+            className="animate-in fade-in duration-300 md:slide-in-from-bottom-4 md:duration-500"
           >
             {renderSection()}
           </div>
         </main>
+        <nav className="fixed inset-x-0 bottom-0 z-50 border-t border-border bg-background/95 px-2 pb-[max(env(safe-area-inset-bottom),0.5rem)] pt-2 shadow-[0_-18px_44px_-30px_rgba(0,0,0,0.35)] backdrop-blur md:hidden">
+          <div className="mx-auto grid max-w-md grid-cols-5 gap-1">
+            {MOBILE_NAV.map((item) => {
+              const Icon = item.icon;
+              const active = activeSection === item.id;
+              return (
+                <button
+                  key={item.id}
+                  onClick={() => setActiveSection(item.id)}
+                  className={cn(
+                    "flex min-w-0 flex-col items-center justify-center gap-1 rounded-lg px-1 py-2 text-[10px] font-medium transition",
+                    active ? "bg-sidebar-accent text-foreground" : "text-muted-foreground",
+                  )}
+                >
+                  <Icon className={cn("h-5 w-5", active && "text-accent")} />
+                  <span className="truncate">{item.label}</span>
+                </button>
+              );
+            })}
+          </div>
+        </nav>
       </div>
     </div>
   );

@@ -1,6 +1,7 @@
 "use client";
 
-import { motion, type HTMLMotionProps, type Variants } from "framer-motion";
+import { useEffect, useState } from "react";
+import { motion, useReducedMotion, type HTMLMotionProps, type Variants } from "framer-motion";
 import { fadeUp, stagger, slideFromLeft, slideFromRight, fadeIn } from "@/lib/motion";
 
 type Variant = "fadeUp" | "fadeIn" | "slideLeft" | "slideRight" | "stagger";
@@ -12,6 +13,20 @@ const variantMap: Record<Variant, Variants> = {
   slideRight: slideFromRight,
   stagger,
 };
+
+function useMobileRevealSafe() {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const media = window.matchMedia("(max-width: 767px), (pointer: coarse)");
+    const sync = () => setIsMobile(media.matches);
+    sync();
+    media.addEventListener("change", sync);
+    return () => media.removeEventListener("change", sync);
+  }, []);
+
+  return isMobile;
+}
 
 export function Reveal({
   variant = "fadeUp",
@@ -29,12 +44,17 @@ export function Reveal({
   children: React.ReactNode;
   className?: string;
 } & Omit<HTMLMotionProps<"div">, "variants" | "initial" | "whileInView" | "viewport">) {
+  const shouldReduceMotion = useReducedMotion();
+  const isMobile = useMobileRevealSafe();
+  const safeVariant = shouldReduceMotion || isMobile ? fadeIn : variant === "slideLeft" || variant === "slideRight" ? fadeUp : variantMap[variant];
+
   return (
     <motion.div
-      variants={variantMap[variant]}
-      initial="hidden"
+      variants={safeVariant}
+      initial={isMobile ? "visible" : "hidden"}
+      animate={isMobile ? "visible" : undefined}
       whileInView="visible"
-      viewport={{ once, amount }}
+      viewport={{ once, amount: shouldReduceMotion ? 0.05 : amount, margin: "0px 0px -8% 0px" }}
       transition={delay ? { delay } : undefined}
       className={className}
       {...rest}
@@ -55,12 +75,16 @@ export function RevealGroup({
   once?: boolean;
   amount?: number;
 }) {
+  const shouldReduceMotion = useReducedMotion();
+  const isMobile = useMobileRevealSafe();
+
   return (
     <motion.div
-      variants={stagger}
-      initial="hidden"
+      variants={shouldReduceMotion || isMobile ? fadeIn : stagger}
+      initial={isMobile ? "visible" : "hidden"}
+      animate={isMobile ? "visible" : undefined}
       whileInView="visible"
-      viewport={{ once, amount }}
+      viewport={{ once, amount: shouldReduceMotion ? 0.05 : amount, margin: "0px 0px -8% 0px" }}
       className={className}
     >
       {children}
@@ -77,8 +101,11 @@ export function RevealItem({
   className?: string;
   variant?: Variant;
 }) {
+  const shouldReduceMotion = useReducedMotion();
+  const isMobile = useMobileRevealSafe();
+
   return (
-    <motion.div variants={variantMap[variant]} className={className}>
+    <motion.div variants={shouldReduceMotion || isMobile ? fadeIn : variantMap[variant]} className={className}>
       {children}
     </motion.div>
   );

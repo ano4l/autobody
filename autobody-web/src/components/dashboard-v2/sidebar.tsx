@@ -65,7 +65,7 @@ export function DashboardSidebar({
   return (
     <aside
       className={cn(
-        "fixed left-0 top-0 z-40 h-screen bg-sidebar border-r border-sidebar-border transition-all duration-300 ease-out flex flex-col",
+        "fixed left-0 top-0 z-40 hidden h-screen bg-sidebar border-r border-sidebar-border transition-all duration-300 ease-out md:flex flex-col",
         collapsed ? "w-[72px]" : "w-[260px]",
       )}
     >
