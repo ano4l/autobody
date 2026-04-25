@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { AlertTriangle, PackagePlus, Pencil, Plus, Search, SlidersHorizontal, Trash2 } from "lucide-react";
+import { AlertTriangle, ImagePlus, PackagePlus, Pencil, Plus, Search, SlidersHorizontal, Trash2, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
@@ -25,7 +25,13 @@ export function InventorySection() {
     category: "Bumpers",
     condition: "Aftermarket" as InventoryItem["condition"],
     price: 0,
+    cost: 0,
     stock: 0,
+    reorderAt: 3,
+    supplier: "",
+    location: "",
+    compatibility: "",
+    image: inventoryItems[0].image,
   });
 
   const filtered = useMemo(() => {
@@ -47,19 +53,33 @@ export function InventorySection() {
     setItems((prev) => [
       {
         id: `inv-${Date.now()}`,
-        cost: Math.round(draft.price * 0.62),
-        reorderAt: 3,
-        supplier: "Admin added",
-        location: "Receiving",
-        image: inventoryItems[0].image,
-        compatibility: draft.model || "Fitment to confirm",
+        ...draft,
+        cost: draft.cost || Math.round(draft.price * 0.62),
+        reorderAt: draft.reorderAt,
+        supplier: draft.supplier || "Admin added",
+        location: draft.location || "Receiving",
+        compatibility: draft.compatibility || draft.model || "Fitment to confirm",
         monthlySales: 0,
         lastMovement: "Created by Admin, just now",
-        ...draft,
       },
       ...prev,
     ]);
-    setDraft({ sku: "", name: "", brand: "Toyota", model: "", category: "Bumpers", condition: "Aftermarket", price: 0, stock: 0 });
+    setDraft({
+      sku: "",
+      name: "",
+      brand: "Toyota",
+      model: "",
+      category: "Bumpers",
+      condition: "Aftermarket",
+      price: 0,
+      cost: 0,
+      stock: 0,
+      reorderAt: 3,
+      supplier: "",
+      location: "",
+      compatibility: "",
+      image: inventoryItems[0].image,
+    });
     setShowAdd(false);
   };
 
@@ -67,55 +87,151 @@ export function InventorySection() {
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col gap-3 lg:flex-row lg:items-end lg:justify-between">
+      <div className="flex flex-col gap-4 xl:flex-row xl:items-end xl:justify-between">
         <div>
           <h2 className="text-lg font-semibold text-foreground">Live Inventory Management</h2>
           <p className="mt-0.5 text-sm text-muted-foreground">
             Search, filter, edit pricing, and restock demo catalogue items in real time.
           </p>
         </div>
-        <Button className="rounded-lg" onClick={() => setShowAdd((value) => !value)}>
-          <Plus className="h-4 w-4" />
-          Add product
-        </Button>
-        <div className="grid grid-cols-3 gap-2 rounded-xl border border-border bg-card p-2 text-center">
-          <div className="px-3 py-2">
-            <p className="text-xs text-muted-foreground">SKUs</p>
-            <p className="text-lg font-semibold">{items.length}</p>
-          </div>
-          <div className="px-3 py-2">
-            <p className="text-xs text-muted-foreground">Units</p>
-            <p className="text-lg font-semibold">{items.reduce((sum, item) => sum + item.stock, 0)}</p>
-          </div>
-          <div className="px-3 py-2">
-            <p className="text-xs text-muted-foreground">Low</p>
-            <p className="text-lg font-semibold text-destructive">{lowStock.length}</p>
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+          <Button className="h-10 rounded-lg px-4" onClick={() => setShowAdd((value) => !value)}>
+            {showAdd ? <X className="h-4 w-4" /> : <Plus className="h-4 w-4" />}
+            {showAdd ? "Close form" : "Add product"}
+          </Button>
+          <div className="grid grid-cols-3 gap-2 rounded-xl border border-border bg-card p-2 text-center">
+            <div className="px-3 py-2">
+              <p className="text-xs text-muted-foreground">SKUs</p>
+              <p className="text-lg font-semibold">{items.length}</p>
+            </div>
+            <div className="px-3 py-2">
+              <p className="text-xs text-muted-foreground">Units</p>
+              <p className="text-lg font-semibold">{items.reduce((sum, item) => sum + item.stock, 0)}</p>
+            </div>
+            <div className="px-3 py-2">
+              <p className="text-xs text-muted-foreground">Low</p>
+              <p className="text-lg font-semibold text-destructive">{lowStock.length}</p>
+            </div>
           </div>
         </div>
       </div>
 
       {showAdd ? (
-        <div className="rounded-xl border border-border bg-card p-5 shadow-sm">
-          <h3 className="font-semibold">Add New Product</h3>
-          <div className="mt-4 grid gap-3 md:grid-cols-4">
-            <input value={draft.sku} onChange={(event) => setDraft({ ...draft, sku: event.target.value })} placeholder="SKU" className="h-10 rounded-lg border border-border bg-background px-3 text-sm" />
-            <input value={draft.name} onChange={(event) => setDraft({ ...draft, name: event.target.value })} placeholder="Part name" className="h-10 rounded-lg border border-border bg-background px-3 text-sm" />
-            <select value={draft.brand} onChange={(event) => setDraft({ ...draft, brand: event.target.value })} className="h-10 rounded-lg border border-border bg-background px-3 text-sm">
-              {brands.filter((item) => item !== "All").map((item) => <option key={item}>{item}</option>)}
-            </select>
-            <input value={draft.model} onChange={(event) => setDraft({ ...draft, model: event.target.value })} placeholder="Model / year" className="h-10 rounded-lg border border-border bg-background px-3 text-sm" />
-            <select value={draft.category} onChange={(event) => setDraft({ ...draft, category: event.target.value })} className="h-10 rounded-lg border border-border bg-background px-3 text-sm">
-              {categories.filter((item) => item !== "All").map((item) => <option key={item}>{item}</option>)}
-            </select>
-            <select value={draft.condition} onChange={(event) => setDraft({ ...draft, condition: event.target.value as InventoryItem["condition"] })} className="h-10 rounded-lg border border-border bg-background px-3 text-sm">
-              {["New", "Used", "OEM", "Aftermarket"].map((item) => <option key={item}>{item}</option>)}
-            </select>
-            <input type="number" value={draft.price} onChange={(event) => setDraft({ ...draft, price: Number(event.target.value) })} placeholder="Price" className="h-10 rounded-lg border border-border bg-background px-3 text-sm" />
-            <input type="number" value={draft.stock} onChange={(event) => setDraft({ ...draft, stock: Number(event.target.value) })} placeholder="Stock" className="h-10 rounded-lg border border-border bg-background px-3 text-sm" />
+        <div className="overflow-hidden rounded-xl border border-border bg-card shadow-sm">
+          <div className="flex items-start justify-between gap-4 border-b border-border p-5">
+            <div>
+              <h3 className="font-semibold">Add New Product</h3>
+              <p className="mt-1 text-sm text-muted-foreground">Create an inventory item with image, fitment, stock, and supplier details.</p>
+            </div>
+            <Button variant="ghost" size="icon" className="rounded-lg" onClick={() => setShowAdd(false)}>
+              <X className="h-4 w-4" />
+            </Button>
           </div>
-          <div className="mt-4 flex gap-2">
-            <Button className="rounded-lg" onClick={addItem}>Save product</Button>
+          <div className="grid gap-6 p-5 xl:grid-cols-[1fr_340px]">
+            <div className="space-y-6">
+              <section>
+                <h4 className="text-sm font-semibold">Product details</h4>
+                <div className="mt-3 grid gap-3 md:grid-cols-2">
+                  <label className="space-y-1.5 text-sm">
+                    <span className="font-medium">Part name</span>
+                    <input value={draft.name} onChange={(event) => setDraft({ ...draft, name: event.target.value })} placeholder="Toyota Corolla Front Bumper" className="h-10 w-full rounded-lg border border-border bg-background px-3 text-sm outline-none focus:border-accent" />
+                  </label>
+                  <label className="space-y-1.5 text-sm">
+                    <span className="font-medium">SKU</span>
+                    <input value={draft.sku} onChange={(event) => setDraft({ ...draft, sku: event.target.value })} placeholder="TY-COR-20-FB" className="h-10 w-full rounded-lg border border-border bg-background px-3 text-sm outline-none focus:border-accent" />
+                  </label>
+                  <label className="space-y-1.5 text-sm">
+                    <span className="font-medium">Vehicle brand</span>
+                    <select value={draft.brand} onChange={(event) => setDraft({ ...draft, brand: event.target.value })} className="h-10 w-full rounded-lg border border-border bg-background px-3 text-sm outline-none focus:border-accent">
+                      {brands.filter((item) => item !== "All").map((item) => <option key={item}>{item}</option>)}
+                    </select>
+                  </label>
+                  <label className="space-y-1.5 text-sm">
+                    <span className="font-medium">Model / year range</span>
+                    <input value={draft.model} onChange={(event) => setDraft({ ...draft, model: event.target.value })} placeholder="Corolla 2020-2024" className="h-10 w-full rounded-lg border border-border bg-background px-3 text-sm outline-none focus:border-accent" />
+                  </label>
+                  <label className="space-y-1.5 text-sm">
+                    <span className="font-medium">Category</span>
+                    <select value={draft.category} onChange={(event) => setDraft({ ...draft, category: event.target.value })} className="h-10 w-full rounded-lg border border-border bg-background px-3 text-sm outline-none focus:border-accent">
+                      {categories.filter((item) => item !== "All").map((item) => <option key={item}>{item}</option>)}
+                    </select>
+                  </label>
+                  <label className="space-y-1.5 text-sm">
+                    <span className="font-medium">Condition</span>
+                    <select value={draft.condition} onChange={(event) => setDraft({ ...draft, condition: event.target.value as InventoryItem["condition"] })} className="h-10 w-full rounded-lg border border-border bg-background px-3 text-sm outline-none focus:border-accent">
+                      {["New", "Used", "OEM", "Aftermarket"].map((item) => <option key={item}>{item}</option>)}
+                    </select>
+                  </label>
+                  <label className="space-y-1.5 text-sm md:col-span-2">
+                    <span className="font-medium">Compatibility / fitment notes</span>
+                    <input value={draft.compatibility} onChange={(event) => setDraft({ ...draft, compatibility: event.target.value })} placeholder="Corolla Quest, Corolla Sedan" className="h-10 w-full rounded-lg border border-border bg-background px-3 text-sm outline-none focus:border-accent" />
+                  </label>
+                </div>
+              </section>
+
+              <section>
+                <h4 className="text-sm font-semibold">Pricing, stock, and supplier</h4>
+                <div className="mt-3 grid gap-3 md:grid-cols-3">
+                  <label className="space-y-1.5 text-sm">
+                    <span className="font-medium">Selling price</span>
+                    <input type="number" value={draft.price} onChange={(event) => setDraft({ ...draft, price: Number(event.target.value) })} className="h-10 w-full rounded-lg border border-border bg-background px-3 text-sm outline-none focus:border-accent" />
+                  </label>
+                  <label className="space-y-1.5 text-sm">
+                    <span className="font-medium">Cost price</span>
+                    <input type="number" value={draft.cost} onChange={(event) => setDraft({ ...draft, cost: Number(event.target.value) })} className="h-10 w-full rounded-lg border border-border bg-background px-3 text-sm outline-none focus:border-accent" />
+                  </label>
+                  <label className="space-y-1.5 text-sm">
+                    <span className="font-medium">Stock on hand</span>
+                    <input type="number" value={draft.stock} onChange={(event) => setDraft({ ...draft, stock: Number(event.target.value) })} className="h-10 w-full rounded-lg border border-border bg-background px-3 text-sm outline-none focus:border-accent" />
+                  </label>
+                  <label className="space-y-1.5 text-sm">
+                    <span className="font-medium">Reorder at</span>
+                    <input type="number" value={draft.reorderAt} onChange={(event) => setDraft({ ...draft, reorderAt: Number(event.target.value) })} className="h-10 w-full rounded-lg border border-border bg-background px-3 text-sm outline-none focus:border-accent" />
+                  </label>
+                  <label className="space-y-1.5 text-sm">
+                    <span className="font-medium">Supplier</span>
+                    <input value={draft.supplier} onChange={(event) => setDraft({ ...draft, supplier: event.target.value })} placeholder="Prime Panels SA" className="h-10 w-full rounded-lg border border-border bg-background px-3 text-sm outline-none focus:border-accent" />
+                  </label>
+                  <label className="space-y-1.5 text-sm">
+                    <span className="font-medium">Bin location</span>
+                    <input value={draft.location} onChange={(event) => setDraft({ ...draft, location: event.target.value })} placeholder="Aisle A2" className="h-10 w-full rounded-lg border border-border bg-background px-3 text-sm outline-none focus:border-accent" />
+                  </label>
+                </div>
+              </section>
+            </div>
+
+            <aside className="space-y-4">
+              <section className="rounded-xl border border-border bg-background p-4">
+                <div className="flex items-center gap-2">
+                  <ImagePlus className="h-4 w-4 text-accent" />
+                  <h4 className="text-sm font-semibold">Product image</h4>
+                </div>
+                <div className="mt-3 overflow-hidden rounded-lg border border-border bg-secondary">
+                  <img src={draft.image || inventoryItems[0].image} alt="" className="h-44 w-full object-cover" />
+                </div>
+                <label className="mt-3 block space-y-1.5 text-sm">
+                  <span className="font-medium">Image URL</span>
+                  <input value={draft.image} onChange={(event) => setDraft({ ...draft, image: event.target.value })} placeholder="https://..." className="h-10 w-full rounded-lg border border-border bg-card px-3 text-sm outline-none focus:border-accent" />
+                </label>
+                <div className="mt-3 grid grid-cols-3 gap-2">
+                  {inventoryItems.slice(0, 6).map((item) => (
+                    <button key={item.id} onClick={() => setDraft({ ...draft, image: item.image })} className="overflow-hidden rounded-lg border border-border transition hover:border-accent">
+                      <img src={item.image} alt="" className="h-14 w-full object-cover" />
+                    </button>
+                  ))}
+                </div>
+              </section>
+              <div className="rounded-xl border border-border bg-background p-4">
+                <h4 className="text-sm font-semibold">Preview</h4>
+                <p className="mt-2 text-sm font-medium">{draft.name || "Part name"}</p>
+                <p className="mt-1 text-xs text-muted-foreground">{draft.sku || "SKU"} · {draft.model || "Model / year"}</p>
+                <p className="mt-3 text-lg font-semibold">R {draft.price.toLocaleString("en-ZA")}</p>
+              </div>
+            </aside>
+          </div>
+          <div className="flex flex-wrap justify-end gap-2 border-t border-border p-5">
             <Button variant="secondary" className="rounded-lg" onClick={() => setShowAdd(false)}>Cancel</Button>
+            <Button className="rounded-lg" onClick={addItem} disabled={!draft.name || !draft.sku}>Save product</Button>
           </div>
         </div>
       ) : null}
