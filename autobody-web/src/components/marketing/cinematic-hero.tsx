@@ -133,9 +133,6 @@ export function CinematicHero() {
           style={{ animation: "floatOrb 10s ease-in-out infinite 1s" }}
         />
 
-        {/* Speed lines */}
-        <div className="pointer-events-none absolute left-0 top-[40%] h-px w-full bg-gradient-to-r from-transparent via-[#2e4de0]/35 to-transparent" />
-        <div className="pointer-events-none absolute left-0 top-[62%] h-px w-full bg-gradient-to-r from-transparent via-white/12 to-transparent" />
       </div>
 
       <div
