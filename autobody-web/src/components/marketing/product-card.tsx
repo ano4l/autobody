@@ -25,16 +25,16 @@ export function ProductCard({ product, priority }: { product: Product; priority?
     <motion.article
       whileHover={{ y: -4 }}
       transition={{ type: "spring", stiffness: 320, damping: 20 }}
-      className="group relative border border-[#e8e9ee] bg-white transition hover:shadow-[0_18px_38px_-20px_rgba(0,0,0,0.18)]"
+      className="group relative overflow-hidden rounded-xl border border-[#e7e9ee] bg-white shadow-sm transition hover:border-[#d7dae2] hover:shadow-[0_22px_52px_-30px_rgba(13,16,22,0.35)]"
     >
       {product.discount && (
-        <span className="absolute left-3 top-3 z-10 bg-[#ef3434] px-2 py-0.5 text-[10px] font-bold text-white">
+        <span className="absolute left-3 top-3 z-10 rounded-full bg-[#ef3434] px-2.5 py-1 text-[10px] font-bold text-white shadow-sm">
           {product.discount}
         </span>
       )}
       <button
         aria-label="Favorite"
-        className="absolute right-3 top-3 z-10 grid h-7 w-7 place-items-center border border-[#e8e9ee] bg-white text-[#9ea2ab] transition hover:text-[#ef3434]"
+        className="absolute right-3 top-3 z-10 grid h-8 w-8 place-items-center rounded-lg border border-[#e8e9ee] bg-white/90 text-[#9ea2ab] shadow-sm transition hover:text-[#ef3434]"
       >
         <svg className="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path
@@ -57,16 +57,21 @@ export function ProductCard({ product, priority }: { product: Product; priority?
           />
         </div>
 
-        <div className="flex items-center justify-center gap-1.5 py-2">
-          <span className="h-1.5 w-1.5 rounded-full bg-[#2e4de0]" />
-          <span className="h-1.5 w-1.5 rounded-full bg-[#d8d9df]" />
-          <span className="h-1.5 w-1.5 rounded-full bg-[#d8d9df]" />
-        </div>
-
         <div className="border-t border-[#e8e9ee] p-4">
+          <div className="mb-3 flex flex-wrap items-center gap-2">
+            <span className="rounded-full bg-[#eef2ff] px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-[#2e4de0]">
+              {product.condition}
+            </span>
+            <span className="rounded-full bg-[#f3f5f8] px-2.5 py-1 text-[10px] font-medium text-[#596070]">
+              {product.stock} in stock
+            </span>
+          </div>
           <h3 className="line-clamp-2 min-h-[40px] text-sm font-semibold text-[#1a1d25]">
             {product.name}
           </h3>
+          <p className="mt-1 truncate text-xs text-[#7a7e89]">
+            {product.brand} · {product.model}{product.year ? ` · ${product.year}` : ""}
+          </p>
           <div className="mt-2 flex items-center gap-1 text-[11px] text-[#7a7e89]">
             <span className="text-[#f5b935]">★★★★★</span>
             <span>{product.reviews} Review{product.reviews === 1 ? "" : "s"}</span>
@@ -76,14 +81,14 @@ export function ProductCard({ product, priority }: { product: Product; priority?
               {product.oldPrice && (
                 <span className="text-xs text-[#9ea2ab] line-through">{formatZar(product.oldPrice)}</span>
               )}
-              <span className="text-base font-bold text-[#2e4de0]">{formatZar(product.price)}</span>
+              <span className="text-base font-bold text-[#0d1016]">{formatZar(product.price)}</span>
             </div>
             <motion.button
               whileHover={{ scale: 1.08 }}
               whileTap={{ scale: 0.92 }}
               onClick={handleAdd}
               aria-label="Add to cart"
-              className="relative grid h-8 w-8 place-items-center bg-[#f4f5f9] text-[#0d1016] transition hover:bg-[#2e4de0] hover:text-white"
+              className="relative grid h-9 w-9 place-items-center rounded-lg bg-[#0d1016] text-white transition hover:bg-[#2e4de0]"
             >
               <AnimatePresence mode="wait">
                 {flash ? (

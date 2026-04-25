@@ -17,22 +17,22 @@ const headlightSet = PRODUCTS.filter((p) => p.category === "Headlights" || p.cat
 
 const sidebarPromos = [
   {
-    title: "Wide Selection Of Quality Auto Parts",
-    desc: "Source reliable parts at prices that keep repair costs realistic.",
-    image: "https://images.unsplash.com/photo-1487754180451-c456f719a1fc?auto=format&fit=crop&w=900&q=80",
+    title: "Live Catalogue Matched To Inventory",
+    desc: "The same parts, stock levels, and quote flow your team sees in the dashboard.",
+    image: featured[0]?.image ?? "",
     href: "/shop",
   },
   {
-    title: "Genuine Auto Parts At Fair Pricing",
-    desc: "OEM and aftermarket options inspected before quoting.",
-    image: "https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?auto=format&fit=crop&w=900&q=80",
+    title: "OEM, Used & Aftermarket Options",
+    desc: "Checked parts with fitment assistance before each customer quote.",
+    image: featured[1]?.image ?? "",
     href: "/shop",
   },
   {
-    title: "Engine Oils & Workshop Fluids",
-    desc: "Tested fluids and chemicals for collision repairs and restorations.",
-    image: "https://images.unsplash.com/photo-1621786030484-4c855eed6974?auto=format&fit=crop&w=900&q=80",
-    href: "/shop?category=Engine",
+    title: "Low-Stock Parts Sourced Fast",
+    desc: "Bumpers, lights, grilles, mirrors, and panels for urgent repairs.",
+    image: featured[4]?.image ?? "",
+    href: "/shop?condition=OEM",
   },
 ] as const;
 
@@ -52,7 +52,11 @@ export default function MarketingHome() {
         <div className="mx-auto grid max-w-[1400px] gap-6 px-5 lg:grid-cols-[1fr_380px] lg:px-8">
           <Reveal>
             <div className="text-center">
-              <h2 className="font-display text-3xl lg:text-4xl">Feature Products</h2>
+              <p className="section-kicker">Synced with the POS dashboard</p>
+              <h2 className="mt-2 font-display text-3xl lg:text-4xl">Featured Autobody Parts</h2>
+              <p className="mx-auto mt-3 max-w-2xl text-sm leading-7 text-[#6b6f7a]">
+                Shop the same demo catalogue used by inventory, POS, quote requests, and management reports.
+              </p>
             </div>
             <div className="mt-6 flex flex-wrap justify-center gap-6 border-b border-[#e6e8ed]">
               {FEATURE_TABS.map((tab) => (
@@ -139,12 +143,12 @@ export default function MarketingHome() {
           {[
             {
               title: "Get The\nBest Priced",
-              img: "https://images.unsplash.com/photo-1487754180451-c456f719a1fc?auto=format&fit=crop&w=1400&q=80",
+              img: featured[2]?.image ?? "",
               href: "/shop",
             },
             {
               title: "Tire & Wheel\nPackages",
-              img: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=1400&q=80",
+              img: featured[3]?.image ?? "",
               href: "/shop?category=Wheels",
             },
           ].map((banner, i) => (
@@ -189,7 +193,7 @@ export default function MarketingHome() {
               <div className="relative overflow-hidden bg-[#0d1016] text-white">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src="https://images.unsplash.com/photo-1542362567-b07e54358753?auto=format&fit=crop&w=900&q=80"
+                  src={headlightSet[0]?.image ?? ""}
                   alt=""
                   loading="lazy"
                   className="absolute inset-y-0 right-0 h-full w-1/2 object-cover opacity-45"
@@ -260,7 +264,7 @@ export default function MarketingHome() {
               <div className="relative h-56 md:h-auto">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src="https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?auto=format&fit=crop&w=1600&q=85"
+                  src={featured[5]?.image ?? ""}
                   alt="Assortment of car parts"
                   className="h-full w-full object-cover"
                 />

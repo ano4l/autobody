@@ -21,12 +21,12 @@ export type InventoryItem = {
 };
 
 export const PART_IMAGES = {
-  bumper: "https://images.unsplash.com/photo-1625047509168-a7026f36de04?auto=format&fit=crop&w=900&q=82",
-  headlight: "https://images.unsplash.com/photo-1542362567-b07e54358753?auto=format&fit=crop&w=900&q=80",
-  fender: "https://images.unsplash.com/photo-1617531653332-bd46c24f2068?auto=format&fit=crop&w=900&q=80",
-  tailLight: "https://images.unsplash.com/photo-1511919884226-fd3cad34687c?auto=format&fit=crop&w=900&q=80",
-  grille: "https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?auto=format&fit=crop&w=900&q=80",
-  mirror: "https://images.unsplash.com/photo-1503736334956-4c8f8e92946d?auto=format&fit=crop&w=900&q=80",
+  bumper: "https://commons.wikimedia.org/wiki/Special:FilePath/Bumpers%20(4982843667).jpg?width=900",
+  headlight: "https://commons.wikimedia.org/wiki/Special:FilePath/2007%20GMC%20Yukon%20XL%20Headlights.jpg?width=900",
+  fender: "https://commons.wikimedia.org/wiki/Special:FilePath/1935%20Chrysler%20Deluxe%20left%20front%20fender%20(cropped).jpg?width=900",
+  tailLight: "https://commons.wikimedia.org/wiki/Special:FilePath/Red%20car%20tail%20light%20(Unsplash).jpg?width=900",
+  grille: "https://commons.wikimedia.org/wiki/Special:FilePath/BMW%20kidney%20grille%2020170524.jpg?width=900",
+  mirror: "https://commons.wikimedia.org/wiki/Special:FilePath/Wing%20mirror.jpg?width=900",
 };
 
 export const inventoryItems: InventoryItem[] = [
