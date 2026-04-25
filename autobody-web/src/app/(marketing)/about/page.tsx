@@ -43,18 +43,18 @@ export default function AboutPage() {
           className="absolute inset-0 opacity-30"
           style={{
             backgroundImage:
-              "radial-gradient(ellipse at top right, rgba(46,77,224,0.45) 0%, transparent 55%), radial-gradient(ellipse at bottom left, rgba(239,52,52,0.18) 0%, transparent 55%)",
+              "radial-gradient(ellipse at top right, rgba(239,52,52,0.45) 0%, transparent 55%), radial-gradient(ellipse at bottom left, rgba(239,52,52,0.18) 0%, transparent 55%)",
           }}
         />
         <div className="relative mx-auto max-w-[1400px] px-5 py-20 lg:px-8 lg:py-28">
           <Reveal>
-            <p className="text-[11px] font-bold uppercase tracking-[0.32em] text-[#2e4de0]">
+            <p className="text-[11px] font-bold uppercase tracking-[0.32em] text-[#ef3434]">
               About Ferreira&apos;s
             </p>
             <h1 className="mt-4 font-display text-5xl uppercase leading-[0.95] sm:text-6xl lg:text-[80px]">
               Craft Meets
               <br />
-              <span className="text-[#2e4de0]">Machinery.</span>
+              <span className="text-[#ef3434]">Machinery.</span>
             </h1>
             <p className="mt-6 max-w-xl text-base leading-8 text-white/65">
               Since 2009 we&apos;ve been the parts call for Pretoria&apos;s panel beaters,
@@ -76,7 +76,7 @@ export default function AboutPage() {
       <section className="bg-[#f4f5f9] py-16">
         <div className="mx-auto grid max-w-[1400px] gap-12 px-5 lg:grid-cols-[1fr_1fr] lg:px-8">
           <Reveal variant="slideLeft">
-            <p className="text-[11px] font-bold uppercase tracking-[0.32em] text-[#2e4de0]">
+            <p className="text-[11px] font-bold uppercase tracking-[0.32em] text-[#ef3434]">
               The story
             </p>
             <h2 className="mt-3 font-display text-3xl uppercase sm:text-4xl">
@@ -126,7 +126,7 @@ export default function AboutPage() {
           <RevealGroup className="grid grid-cols-2 gap-6 sm:grid-cols-4">
             {STATS.map((s) => (
               <RevealItem key={s.label}>
-                <div className="border-l-2 border-[#2e4de0] pl-4">
+                <div className="border-l-2 border-[#ef3434] pl-4">
                   <div className="font-display text-3xl text-[#0d1016]">{s.num}</div>
                   <div className="mt-1 text-[10px] uppercase tracking-[0.2em] text-[#6b6f7a]">
                     {s.label}
@@ -142,7 +142,7 @@ export default function AboutPage() {
       <section className="bg-[#f4f5f9] py-16">
         <div className="mx-auto max-w-[1400px] px-5 lg:px-8">
           <Reveal>
-            <p className="text-[11px] font-bold uppercase tracking-[0.32em] text-[#2e4de0]">
+            <p className="text-[11px] font-bold uppercase tracking-[0.32em] text-[#ef3434]">
               How we work
             </p>
             <h2 className="mt-3 font-display text-3xl uppercase sm:text-4xl">
@@ -157,7 +157,7 @@ export default function AboutPage() {
                   transition={{ type: "spring", stiffness: 320, damping: 20 }}
                   className="h-full bg-white p-6"
                 >
-                  <p className="font-display text-sm text-[#2e4de0]">{v.n}</p>
+                  <p className="font-display text-sm text-[#ef3434]">{v.n}</p>
                   <h3 className="mt-4 text-lg font-bold">{v.title}</h3>
                   <p className="mt-3 text-sm leading-7 text-[#4f5360]">{v.body}</p>
                 </motion.div>
@@ -172,7 +172,7 @@ export default function AboutPage() {
         <div className="mx-auto grid max-w-[1400px] gap-6 px-5 lg:grid-cols-[1.4fr_1fr] lg:items-center lg:px-8">
           <Reveal>
             <h2 className="font-display text-3xl uppercase sm:text-4xl">
-              Need a part fast? <span className="text-[#2e4de0]">Get a quote.</span>
+              Need a part fast? <span className="text-[#ef3434]">Get a quote.</span>
             </h2>
             <p className="mt-3 max-w-md text-sm text-white/65">
               Send your VIN or vehicle details and the team will confirm fitment, stock, and
@@ -183,7 +183,7 @@ export default function AboutPage() {
             <div className="flex flex-wrap gap-3">
               <Link
                 href="/contact"
-                className="bg-[#2e4de0] px-8 py-3 text-xs font-semibold uppercase tracking-[0.2em] text-white transition hover:bg-[#3a5cf0]"
+                className="bg-[#ef3434] px-8 py-3 text-xs font-semibold uppercase tracking-[0.2em] text-white transition hover:bg-[#f04444]"
               >
                 Contact Us
               </Link>

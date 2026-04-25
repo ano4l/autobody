@@ -7,7 +7,7 @@ import { formatZar } from "@/lib/payfast";
 export function MiniProductCard({ product }: { product: Product }) {
   return (
     <Link href={`/shop/${product.slug}` as "/shop"} className="group block">
-      <article className="relative border border-[#e8e9ee] bg-white p-3 transition group-hover:border-[#2e4de0]">
+      <article className="relative border border-[#e8e9ee] bg-white p-3 transition group-hover:border-[#ef3434]">
         {product.discount && (
           <span className="absolute left-2 top-2 z-10 bg-[#ef3434] px-1.5 py-0.5 text-[9px] font-bold text-white">
             {product.discount}
@@ -32,7 +32,7 @@ export function MiniProductCard({ product }: { product: Product }) {
               {formatZar(product.oldPrice)}
             </span>
           )}
-          <span className="text-xs font-bold text-[#2e4de0]">{formatZar(product.price)}</span>
+          <span className="text-xs font-bold text-[#ef3434]">{formatZar(product.price)}</span>
         </div>
       </article>
     </Link>

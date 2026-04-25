@@ -125,7 +125,7 @@ export function CinematicHero() {
 
         {/* Atmospheric orbs */}
         <div
-          className="pointer-events-none absolute left-[10%] top-[18%] h-[28rem] w-[28rem] rounded-full bg-[#2e4de0]/18 blur-[120px]"
+          className="pointer-events-none absolute left-[10%] top-[18%] h-[28rem] w-[28rem] rounded-full bg-[#ef3434]/18 blur-[120px]"
           style={{ animation: "floatOrb 12s ease-in-out infinite" }}
         />
         <div
@@ -144,11 +144,11 @@ export function CinematicHero() {
         <div className="flex flex-col items-center gap-6">
           <div className="relative h-24 w-24">
             <div className="absolute inset-0 rounded-full border border-white/15" />
-            <div className="hero-wheel absolute inset-2 rounded-full border-[12px] border-[#2e4de0] border-t-white border-r-[#ef3434] shadow-[0_0_54px_rgba(46,77,224,0.5)]" />
+            <div className="hero-wheel absolute inset-2 rounded-full border-[12px] border-[#ef3434] border-t-white border-r-[#ef3434] shadow-[0_0_54px_rgba(239,52,52,0.5)]" />
             <div className="absolute left-1/2 top-1/2 h-5 w-5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-white" />
           </div>
           <div className="h-px w-56 overflow-hidden bg-white/10">
-            <div className="hero-road-line h-full w-24 bg-gradient-to-r from-transparent via-[#2e4de0] to-transparent" />
+            <div className="hero-road-line h-full w-24 bg-gradient-to-r from-transparent via-[#ef3434] to-transparent" />
           </div>
         </div>
       </div>
@@ -208,7 +208,7 @@ export function CinematicHero() {
               href={`/shop${make ? `?brand=${encodeURIComponent(make)}` : ""}${
                 model ? `${make ? "&" : "?"}model=${encodeURIComponent(model)}` : ""
               }`}
-              className="inline-flex items-center justify-center bg-[#2e4de0] px-8 py-3 text-sm font-semibold text-white transition hover:bg-[#3a5cf0]"
+              className="inline-flex items-center justify-center bg-[#ef3434] px-8 py-3 text-sm font-semibold text-white transition hover:bg-[#f04444]"
             >
               Search Now
             </motion.a>
@@ -222,7 +222,7 @@ export function CinematicHero() {
           </p>
           <h1 className="font-display text-4xl uppercase leading-[0.95] text-white drop-shadow-[0_5px_34px_rgba(0,0,0,0.95)] sm:text-6xl lg:text-[80px]">
             <span className="hero-word block">Quality</span>
-            <span className="hero-word block text-[#2e4de0] drop-shadow-[0_0_30px_rgba(46,77,224,0.45)]">
+            <span className="hero-word block text-[#ef3434] drop-shadow-[0_0_30px_rgba(239,52,52,0.45)]">
               Autobody
             </span>
             <span className="hero-word block">Parts For</span>
@@ -236,7 +236,7 @@ export function CinematicHero() {
             <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
               <Link
                 href={"/shop" as "/shop"}
-                className="inline-block bg-[#2e4de0] px-8 py-4 text-xs font-semibold uppercase tracking-[0.2em] text-white transition hover:bg-[#3a5cf0] hover:shadow-[0_18px_50px_-12px_rgba(46,77,224,0.5)]"
+                className="inline-block bg-[#ef3434] px-8 py-4 text-xs font-semibold uppercase tracking-[0.2em] text-white transition hover:bg-[#f04444] hover:shadow-[0_18px_50px_-12px_rgba(239,52,52,0.5)]"
               >
                 Shop Now
               </Link>
@@ -256,7 +256,7 @@ export function CinematicHero() {
         <div className="scroll-cue mx-auto flex -translate-y-2 flex-col items-center gap-2 pb-6 text-white/45">
           <span className="text-[10px] uppercase tracking-[0.28em]">Scroll to explore</span>
           <div className="relative h-10 w-px overflow-hidden bg-white/10">
-            <div className="absolute top-0 left-0 h-5 w-full animate-scroll-line bg-gradient-to-b from-[#2e4de0] to-transparent" />
+            <div className="absolute top-0 left-0 h-5 w-full animate-scroll-line bg-gradient-to-b from-[#ef3434] to-transparent" />
           </div>
         </div>
       </div>

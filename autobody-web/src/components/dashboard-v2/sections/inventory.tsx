@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { AlertTriangle, PackagePlus, Pencil, Search, SlidersHorizontal } from "lucide-react";
+import { AlertTriangle, PackagePlus, Pencil, Plus, Search, SlidersHorizontal, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
@@ -16,6 +16,17 @@ export function InventorySection() {
   const [brand, setBrand] = useState("All");
   const [category, setCategory] = useState("All");
   const [editingId, setEditingId] = useState<string | null>(null);
+  const [showAdd, setShowAdd] = useState(false);
+  const [draft, setDraft] = useState({
+    sku: "",
+    name: "",
+    brand: "Toyota",
+    model: "",
+    category: "Bumpers",
+    condition: "Aftermarket" as InventoryItem["condition"],
+    price: 0,
+    stock: 0,
+  });
 
   const filtered = useMemo(() => {
     const needle = query.toLowerCase();
@@ -31,6 +42,27 @@ export function InventorySection() {
     setItems((prev) => prev.map((item) => (item.id === id ? { ...item, ...patch } : item)));
   };
 
+  const addItem = () => {
+    if (!draft.name || !draft.sku) return;
+    setItems((prev) => [
+      {
+        id: `inv-${Date.now()}`,
+        cost: Math.round(draft.price * 0.62),
+        reorderAt: 3,
+        supplier: "Admin added",
+        location: "Receiving",
+        image: inventoryItems[0].image,
+        compatibility: draft.model || "Fitment to confirm",
+        monthlySales: 0,
+        lastMovement: "Created by Admin, just now",
+        ...draft,
+      },
+      ...prev,
+    ]);
+    setDraft({ sku: "", name: "", brand: "Toyota", model: "", category: "Bumpers", condition: "Aftermarket", price: 0, stock: 0 });
+    setShowAdd(false);
+  };
+
   const lowStock = items.filter((item) => item.stock <= item.reorderAt);
 
   return (
@@ -42,6 +74,10 @@ export function InventorySection() {
             Search, filter, edit pricing, and restock demo catalogue items in real time.
           </p>
         </div>
+        <Button className="rounded-lg" onClick={() => setShowAdd((value) => !value)}>
+          <Plus className="h-4 w-4" />
+          Add product
+        </Button>
         <div className="grid grid-cols-3 gap-2 rounded-xl border border-border bg-card p-2 text-center">
           <div className="px-3 py-2">
             <p className="text-xs text-muted-foreground">SKUs</p>
@@ -57,6 +93,32 @@ export function InventorySection() {
           </div>
         </div>
       </div>
+
+      {showAdd ? (
+        <div className="rounded-xl border border-border bg-card p-5 shadow-sm">
+          <h3 className="font-semibold">Add New Product</h3>
+          <div className="mt-4 grid gap-3 md:grid-cols-4">
+            <input value={draft.sku} onChange={(event) => setDraft({ ...draft, sku: event.target.value })} placeholder="SKU" className="h-10 rounded-lg border border-border bg-background px-3 text-sm" />
+            <input value={draft.name} onChange={(event) => setDraft({ ...draft, name: event.target.value })} placeholder="Part name" className="h-10 rounded-lg border border-border bg-background px-3 text-sm" />
+            <select value={draft.brand} onChange={(event) => setDraft({ ...draft, brand: event.target.value })} className="h-10 rounded-lg border border-border bg-background px-3 text-sm">
+              {brands.filter((item) => item !== "All").map((item) => <option key={item}>{item}</option>)}
+            </select>
+            <input value={draft.model} onChange={(event) => setDraft({ ...draft, model: event.target.value })} placeholder="Model / year" className="h-10 rounded-lg border border-border bg-background px-3 text-sm" />
+            <select value={draft.category} onChange={(event) => setDraft({ ...draft, category: event.target.value })} className="h-10 rounded-lg border border-border bg-background px-3 text-sm">
+              {categories.filter((item) => item !== "All").map((item) => <option key={item}>{item}</option>)}
+            </select>
+            <select value={draft.condition} onChange={(event) => setDraft({ ...draft, condition: event.target.value as InventoryItem["condition"] })} className="h-10 rounded-lg border border-border bg-background px-3 text-sm">
+              {["New", "Used", "OEM", "Aftermarket"].map((item) => <option key={item}>{item}</option>)}
+            </select>
+            <input type="number" value={draft.price} onChange={(event) => setDraft({ ...draft, price: Number(event.target.value) })} placeholder="Price" className="h-10 rounded-lg border border-border bg-background px-3 text-sm" />
+            <input type="number" value={draft.stock} onChange={(event) => setDraft({ ...draft, stock: Number(event.target.value) })} placeholder="Stock" className="h-10 rounded-lg border border-border bg-background px-3 text-sm" />
+          </div>
+          <div className="mt-4 flex gap-2">
+            <Button className="rounded-lg" onClick={addItem}>Save product</Button>
+            <Button variant="secondary" className="rounded-lg" onClick={() => setShowAdd(false)}>Cancel</Button>
+          </div>
+        </div>
+      ) : null}
 
       <div className="sticky top-16 z-20 rounded-xl border border-border bg-card/95 p-3 shadow-sm backdrop-blur">
         <div className="grid gap-3 lg:grid-cols-[1fr_180px_180px_auto]">
@@ -106,6 +168,9 @@ export function InventorySection() {
                     </div>
                     {editing ? (
                       <div className="grid gap-2 sm:grid-cols-3">
+                        <input value={item.name} onChange={(event) => updateItem(item.id, { name: event.target.value })} className="h-9 rounded-lg border border-border bg-background px-3 text-sm" />
+                        <input value={item.sku} onChange={(event) => updateItem(item.id, { sku: event.target.value })} className="h-9 rounded-lg border border-border bg-background px-3 text-sm" />
+                        <input value={item.model} onChange={(event) => updateItem(item.id, { model: event.target.value })} className="h-9 rounded-lg border border-border bg-background px-3 text-sm" />
                         <input type="number" value={item.price} onChange={(event) => updateItem(item.id, { price: Number(event.target.value) })} className="h-9 rounded-lg border border-border bg-background px-3 text-sm" />
                         <input type="number" value={item.stock} onChange={(event) => updateItem(item.id, { stock: Number(event.target.value) })} className="h-9 rounded-lg border border-border bg-background px-3 text-sm" />
                         <Button variant="secondary" size="sm" onClick={() => setEditingId(null)}>Save changes</Button>
@@ -121,6 +186,10 @@ export function InventorySection() {
                     <Button size="sm" onClick={() => updateItem(item.id, { stock: item.stock + 5 })}>
                       <PackagePlus className="h-4 w-4" />
                       Restock +5
+                    </Button>
+                    <Button variant="danger" size="sm" onClick={() => setItems((prev) => prev.filter((candidate) => candidate.id !== item.id))}>
+                      <Trash2 className="h-4 w-4" />
+                      Delete
                     </Button>
                   </div>
                 </div>

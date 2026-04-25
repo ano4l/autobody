@@ -8,7 +8,7 @@ export default function MarketingLayout({ children }: { children: ReactNode }) {
   return (
     <SmoothScrollProvider>
       <div className="min-h-screen bg-[#f4f5f9] text-[#1a1d25]">
-        <div className="fixed left-0 top-0 z-[70] h-[3px] w-full origin-left scale-x-[var(--scroll-progress,0)] bg-[#2e4de0]" />
+        <div className="fixed left-0 top-0 z-[70] h-[3px] w-full origin-left scale-x-[var(--scroll-progress,0)] bg-[#ef3434]" />
         <SiteHeader />
         <main>{children}</main>
         <SiteFooter />

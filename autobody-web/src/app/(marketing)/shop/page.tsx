@@ -116,7 +116,7 @@ function ShopBody() {
               Shop
             </p>
             <h1 className="mt-2 font-display text-4xl uppercase sm:text-5xl">
-              Full <span className="text-[#2e4de0]">Parts</span> Catalog
+              Full <span className="text-[#ef3434]">Parts</span> Catalog
             </h1>
             <p className="mt-3 max-w-xl text-sm text-white/65">
               Filter by category, brand, condition, and price. Every part is checked before
@@ -148,7 +148,7 @@ function ShopBody() {
                   setPage(1);
                 }}
                 placeholder="Search parts…"
-                className="h-10 w-full border border-[#dedede] bg-white px-3 text-sm outline-none focus:border-[#2e4de0]"
+                className="h-10 w-full border border-[#dedede] bg-white px-3 text-sm outline-none focus:border-[#ef3434]"
               />
             </div>
 
@@ -162,13 +162,13 @@ function ShopBody() {
                   return (
                     <label
                       key={cat.name}
-                      className="flex items-center gap-2 text-sm cursor-pointer hover:text-[#2e4de0]"
+                      className="flex items-center gap-2 text-sm cursor-pointer hover:text-[#ef3434]"
                     >
                       <input
                         type="checkbox"
                         checked={checked}
                         onChange={() => toggleCategory(cat.name)}
-                        className="accent-[#2e4de0]"
+                        className="accent-[#ef3434]"
                       />
                       <span>{cat.name}</span>
                     </label>
@@ -187,7 +187,7 @@ function ShopBody() {
                   setBrandFilter(e.target.value);
                   setPage(1);
                 }}
-                className="h-10 w-full border border-[#dedede] bg-white px-3 text-sm outline-none focus:border-[#2e4de0]"
+                className="h-10 w-full border border-[#dedede] bg-white px-3 text-sm outline-none focus:border-[#ef3434]"
               >
                 <option value="all">All brands</option>
                 {BRANDS.map((b) => (
@@ -206,7 +206,7 @@ function ShopBody() {
                   setConditionFilter(e.target.value);
                   setPage(1);
                 }}
-                className="h-10 w-full border border-[#dedede] bg-white px-3 text-sm outline-none focus:border-[#2e4de0]"
+                className="h-10 w-full border border-[#dedede] bg-white px-3 text-sm outline-none focus:border-[#ef3434]"
               >
                 <option value="all">Any condition</option>
                 {CONDITIONS.map((c) => (
@@ -226,11 +226,11 @@ function ShopBody() {
                 step={100}
                 value={maxPrice}
                 onChange={(e) => setMaxPrice(Number(e.target.value))}
-                className="w-full accent-[#2e4de0]"
+                className="w-full accent-[#ef3434]"
               />
               <div className="mt-1 flex items-center justify-between text-xs text-[#6b6f7a]">
                 <span>R500</span>
-                <span className="font-semibold text-[#2e4de0]">R{maxPrice.toLocaleString()}</span>
+                <span className="font-semibold text-[#ef3434]">R{maxPrice.toLocaleString()}</span>
                 <span>R15k</span>
               </div>
             </div>
@@ -255,7 +255,7 @@ function ShopBody() {
                 <select
                   value={sort}
                   onChange={(e) => setSort(e.target.value as SortKey)}
-                  className="h-9 border border-[#dedede] bg-white px-3 text-sm outline-none focus:border-[#2e4de0]"
+                  className="h-9 border border-[#dedede] bg-white px-3 text-sm outline-none focus:border-[#ef3434]"
                 >
                   {SORTS.map((s) => (
                     <option key={s.key} value={s.key}>
@@ -272,7 +272,7 @@ function ShopBody() {
                 <p className="mt-2 text-sm text-[#6b6f7a]">Try adjusting your filters.</p>
                 <button
                   onClick={clearFilters}
-                  className="mt-5 bg-[#2e4de0] px-6 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-white hover:bg-[#3a5cf0]"
+                  className="mt-5 bg-[#ef3434] px-6 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-white hover:bg-[#f04444]"
                 >
                   Reset filters
                 </button>
@@ -299,7 +299,7 @@ function ShopBody() {
                 <button
                   disabled={page === 1}
                   onClick={() => setPage((p) => Math.max(1, p - 1))}
-                  className="h-9 px-4 border border-[#dedede] bg-white text-sm disabled:opacity-40 hover:border-[#2e4de0]"
+                  className="h-9 px-4 border border-[#dedede] bg-white text-sm disabled:opacity-40 hover:border-[#ef3434]"
                 >
                   ←
                 </button>
@@ -309,8 +309,8 @@ function ShopBody() {
                     onClick={() => setPage(p)}
                     className={`h-9 w-9 text-sm font-semibold transition ${
                       page === p
-                        ? "bg-[#2e4de0] text-white"
-                        : "border border-[#dedede] bg-white hover:border-[#2e4de0]"
+                        ? "bg-[#ef3434] text-white"
+                        : "border border-[#dedede] bg-white hover:border-[#ef3434]"
                     }`}
                   >
                     {p}
@@ -319,7 +319,7 @@ function ShopBody() {
                 <button
                   disabled={page === totalPages}
                   onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
-                  className="h-9 px-4 border border-[#dedede] bg-white text-sm disabled:opacity-40 hover:border-[#2e4de0]"
+                  className="h-9 px-4 border border-[#dedede] bg-white text-sm disabled:opacity-40 hover:border-[#ef3434]"
                 >
                   →
                 </button>

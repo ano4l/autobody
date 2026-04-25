@@ -63,7 +63,7 @@ export default function CartPage() {
                 </p>
                 <Link
                   href="/shop"
-                  className="mt-5 bg-[#2e4de0] px-8 py-3 text-xs font-semibold uppercase tracking-[0.18em] text-white hover:bg-[#3a5cf0]"
+                  className="mt-5 bg-[#ef3434] px-8 py-3 text-xs font-semibold uppercase tracking-[0.18em] text-white hover:bg-[#f04444]"
                 >
                   Browse Shop
                 </Link>
@@ -96,14 +96,14 @@ export default function CartPage() {
                             <div>
                               <Link
                                 href={`/shop/${line.slug}`}
-                                className="line-clamp-2 text-sm font-semibold hover:text-[#2e4de0]"
+                                className="line-clamp-2 text-sm font-semibold hover:text-[#ef3434]"
                               >
                                 {line.name}
                               </Link>
                               <p className="mt-1 text-xs text-[#6b6f7a]">
                                 {line.brand} / {line.model}
                               </p>
-                              <p className="mt-1 text-sm font-bold text-[#2e4de0] sm:hidden">
+                              <p className="mt-1 text-sm font-bold text-[#ef3434] sm:hidden">
                                 {formatZar(line.price * line.quantity)}
                               </p>
                             </div>
@@ -127,7 +127,7 @@ export default function CartPage() {
                               </button>
                             </div>
                           </div>
-                          <div className="hidden text-right text-sm font-bold text-[#2e4de0] sm:block">
+                          <div className="hidden text-right text-sm font-bold text-[#ef3434] sm:block">
                             {formatZar(line.price * line.quantity)}
                           </div>
                           <button
@@ -144,7 +144,7 @@ export default function CartPage() {
                   <div className="border-t border-[#e8e9ee] px-5 py-4">
                     <Link
                       href="/shop"
-                      className="text-xs font-semibold uppercase tracking-[0.18em] text-[#2e4de0] hover:underline"
+                      className="text-xs font-semibold uppercase tracking-[0.18em] text-[#ef3434] hover:underline"
                     >
                       ← Continue Shopping
                     </Link>
@@ -163,7 +163,7 @@ export default function CartPage() {
                         <span className="font-semibold">{formatZar(totals.subtotal)}</span>
                       </div>
                       {totals.discount > 0 && (
-                        <div className="flex items-center justify-between text-[#2e4de0]">
+                        <div className="flex items-center justify-between text-[#ef3434]">
                           <span>Discount ({totals.promoCode})</span>
                           <span>-{formatZar(totals.discount)}</span>
                         </div>
@@ -186,7 +186,7 @@ export default function CartPage() {
                     <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
                       <Link
                         href="/checkout"
-                        className="mt-5 block bg-[#2e4de0] py-4 text-center text-xs font-semibold uppercase tracking-[0.2em] text-white transition hover:bg-[#3a5cf0]"
+                        className="mt-5 block bg-[#ef3434] py-4 text-center text-xs font-semibold uppercase tracking-[0.2em] text-white transition hover:bg-[#f04444]"
                       >
                         Proceed to Checkout
                       </Link>
@@ -203,11 +203,11 @@ export default function CartPage() {
                         value={code}
                         onChange={(e) => setCode(e.target.value)}
                         placeholder="Enter code"
-                        className="h-10 flex-1 border border-[#dedede] px-3 text-sm outline-none focus:border-[#2e4de0]"
+                        className="h-10 flex-1 border border-[#dedede] px-3 text-sm outline-none focus:border-[#ef3434]"
                       />
                       <button
                         onClick={applyPromo}
-                        className="h-10 bg-[#0d1016] px-4 text-xs font-semibold uppercase tracking-[0.18em] text-white hover:bg-[#2e4de0]"
+                        className="h-10 bg-[#0d1016] px-4 text-xs font-semibold uppercase tracking-[0.18em] text-white hover:bg-[#ef3434]"
                       >
                         Apply
                       </button>
@@ -215,7 +215,7 @@ export default function CartPage() {
                     {feedback && (
                       <p
                         className={`mt-2 text-xs ${
-                          totals.discount > 0 ? "text-[#2e4de0]" : "text-rose-600"
+                          totals.discount > 0 ? "text-[#ef3434]" : "text-rose-600"
                         }`}
                       >
                         {feedback}

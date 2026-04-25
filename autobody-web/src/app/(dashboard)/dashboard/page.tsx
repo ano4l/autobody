@@ -12,6 +12,7 @@ import { ApprovalsSection as ConversationsSection } from "@/components/dashboard
 import { EscalationsSection } from "@/components/dashboard-v2/sections/escalations";
 import { SuppliersSection } from "@/components/dashboard-v2/sections/suppliers";
 import { BroadcastSection } from "@/components/dashboard-v2/sections/broadcast";
+import { ReviewsSection } from "@/components/dashboard-v2/sections/reviews";
 import { ReportsSection } from "@/components/dashboard-v2/sections/reports";
 import { AuditSection } from "@/components/dashboard-v2/sections/audit";
 import { NotificationsSection } from "@/components/dashboard-v2/sections/notifications";
@@ -22,7 +23,7 @@ import { clearSession } from "@/lib/auth";
 import { getDashboardStats } from "@/lib/dashboard-autobody-seed";
 
 const VALID: Section[] = [
-  "overview", "inventory", "pos", "orders", "conversations", "escalations", "suppliers", "broadcast", "reports",
+  "overview", "inventory", "pos", "orders", "conversations", "escalations", "suppliers", "broadcast", "reviews", "reports",
   "audit", "notifications", "faq", "settings",
 ];
 
@@ -108,6 +109,8 @@ function DashboardShell() {
         return <SuppliersSection />;
       case "broadcast":
         return <BroadcastSection />;
+      case "reviews":
+        return <ReviewsSection />;
       case "reports":
         return <ReportsSection />;
       case "audit":

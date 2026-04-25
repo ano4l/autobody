@@ -20,6 +20,7 @@ const sectionTitles: Record<Section, string> = {
   escalations: "Escalation Queue",
   suppliers: "Suppliers & Reorders",
   broadcast: "WhatsApp Broadcast",
+  reviews: "Google Reviews",
   reports: "Reports & Analytics",
   audit: "Audit Trail",
   notifications: "Notifications",

@@ -73,7 +73,7 @@ export default function MarketingHome() {
                   {activeTab === tab && (
                     <motion.span
                       layoutId="feature-tab-underline"
-                      className="absolute -bottom-px left-0 h-[2px] w-full bg-[#2e4de0]"
+                      className="absolute -bottom-px left-0 h-[2px] w-full bg-[#ef3434]"
                       transition={{ type: "spring", stiffness: 380, damping: 30 }}
                     />
                   )}
@@ -107,7 +107,7 @@ export default function MarketingHome() {
                   <div className="relative p-5">
                     <h3 className="font-display text-lg leading-tight">{card.title}</h3>
                     <p className="mt-2 text-xs text-white/70">{card.desc}</p>
-                    <span className="mt-3 inline-flex items-center gap-1 text-xs font-semibold uppercase tracking-[0.18em] text-[#2e4de0]">
+                    <span className="mt-3 inline-flex items-center gap-1 text-xs font-semibold uppercase tracking-[0.18em] text-[#ef3434]">
                       Shop now →
                     </span>
                   </div>
@@ -121,7 +121,7 @@ export default function MarketingHome() {
                   <h3 className="font-display text-lg">Top Trending</h3>
                   <Link
                     href={"/shop" as "/shop"}
-                    className="text-xs font-semibold uppercase tracking-[0.14em] text-[#2e4de0] hover:underline"
+                    className="text-xs font-semibold uppercase tracking-[0.14em] text-[#ef3434] hover:underline"
                   >
                     More +
                   </Link>
@@ -166,7 +166,7 @@ export default function MarketingHome() {
                 />
                 <div className="relative p-8">
                   <h3 className="font-display text-2xl uppercase whitespace-pre-line">{banner.title}</h3>
-                  <span className="mt-5 inline-block bg-[#2e4de0] px-6 py-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-white transition group-hover:bg-[#3a5cf0]">
+                  <span className="mt-5 inline-block bg-[#ef3434] px-6 py-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-white transition group-hover:bg-[#f04444]">
                     Shop Now
                   </span>
                 </div>
@@ -212,7 +212,7 @@ export default function MarketingHome() {
                   </ul>
                   <Link
                     href={"/shop?category=Headlights" as "/shop"}
-                    className="mt-5 inline-block bg-[#2e4de0] px-5 py-2 text-[10px] font-semibold uppercase tracking-[0.18em] hover:bg-[#3a5cf0]"
+                    className="mt-5 inline-block bg-[#ef3434] px-5 py-2 text-[10px] font-semibold uppercase tracking-[0.18em] hover:bg-[#f04444]"
                   >
                     View All +
                   </Link>
@@ -244,7 +244,7 @@ export default function MarketingHome() {
               { num: "RSA", label: "Nationwide delivery" },
             ].map((stat) => (
               <RevealItem key={stat.label}>
-                <div className="border-l-2 border-[#2e4de0] pl-4">
+                <div className="border-l-2 border-[#ef3434] pl-4">
                   <div className="font-display text-3xl text-[#0d1016]">{stat.num}</div>
                   <div className="mt-1 text-[10px] uppercase tracking-[0.2em] text-[#6b6f7a]">
                     {stat.label}
@@ -294,7 +294,7 @@ export default function MarketingHome() {
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                     type="submit"
-                    className="grid h-10 w-10 place-items-center bg-[#0d1016] text-white transition hover:bg-[#2e4de0]"
+                    className="grid h-10 w-10 place-items-center bg-[#0d1016] text-white transition hover:bg-[#ef3434]"
                     aria-label="Submit"
                   >
                     →
@@ -304,7 +304,7 @@ export default function MarketingHome() {
                   <motion.p
                     initial={{ opacity: 0, y: 6 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="mt-3 text-xs text-[#2e4de0]"
+                    className="mt-3 text-xs text-[#ef3434]"
                   >
                     Thanks — we will keep you posted on new parts.
                   </motion.p>

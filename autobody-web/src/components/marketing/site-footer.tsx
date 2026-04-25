@@ -3,7 +3,7 @@ import Link from "next/link";
 function FooterCol({ title, items }: { title: string; items: { label: string; href: string }[] }) {
   return (
     <div>
-      <h3 className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#2e4de0]">{title}</h3>
+      <h3 className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#ef3434]">{title}</h3>
       <ul className="mt-4 space-y-2 text-sm text-white/60">
         {items.map((item) => (
           <li key={item.label}>
@@ -24,11 +24,11 @@ export function SiteFooter() {
         <div className="grid gap-9 md:grid-cols-[1.2fr_1fr_1fr_1fr]">
           <div>
             <div className="flex items-center gap-2">
-              <span className="grid h-9 w-9 place-items-center bg-[#2e4de0] font-display text-xs text-white">
+              <span className="grid h-9 w-9 place-items-center bg-[#ef3434] font-display text-xs text-white">
                 FS
               </span>
               <span className="font-display text-xl">
-                Ferreira&apos;s<span className="text-[#2e4de0]">.</span>
+                Ferreira&apos;s<span className="text-[#ef3434]">.</span>
               </span>
             </div>
             <p className="mt-4 max-w-sm text-sm leading-7 text-white/60">

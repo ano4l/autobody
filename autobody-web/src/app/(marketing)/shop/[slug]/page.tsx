@@ -72,7 +72,7 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
                     key={g}
                     onClick={() => setActiveImage(g)}
                     className={`flex-none border-2 overflow-hidden ${
-                      activeImage === g ? "border-[#2e4de0]" : "border-transparent"
+                      activeImage === g ? "border-[#ef3434]" : "border-transparent"
                     }`}
                   >
                     {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -98,7 +98,7 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
 
           {/* Info */}
           <Reveal variant="slideRight">
-            <p className="text-xs uppercase tracking-[0.2em] text-[#2e4de0]">
+            <p className="text-xs uppercase tracking-[0.2em] text-[#ef3434]">
               {product.brand} / {product.category}
             </p>
             <h1 className="mt-2 font-display text-3xl uppercase leading-tight sm:text-4xl">
@@ -119,7 +119,7 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
                   {formatZar(product.oldPrice)}
                 </span>
               )}
-              <span className="font-display text-3xl text-[#2e4de0]">{formatZar(product.price)}</span>
+              <span className="font-display text-3xl text-[#ef3434]">{formatZar(product.price)}</span>
               {product.discount && (
                 <span className="bg-[#ef3434] px-2 py-0.5 text-[10px] font-bold text-white">
                   {product.discount}
@@ -151,7 +151,7 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 onClick={handleAdd}
-                className="h-12 bg-[#0d1016] px-8 text-xs font-semibold uppercase tracking-[0.18em] text-white hover:bg-[#2e4de0] transition"
+                className="h-12 bg-[#0d1016] px-8 text-xs font-semibold uppercase tracking-[0.18em] text-white hover:bg-[#ef3434] transition"
               >
                 {added ? "✓ Added" : "Add to Cart"}
               </motion.button>
@@ -159,7 +159,7 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 onClick={handleBuyNow}
-                className="h-12 bg-[#2e4de0] px-8 text-xs font-semibold uppercase tracking-[0.18em] text-white hover:bg-[#3a5cf0] transition"
+                className="h-12 bg-[#ef3434] px-8 text-xs font-semibold uppercase tracking-[0.18em] text-white hover:bg-[#f04444] transition"
               >
                 Buy Now
               </motion.button>
@@ -204,7 +204,7 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
                 {tab === t.key && (
                   <motion.span
                     layoutId="product-tab-underline"
-                    className="absolute -bottom-px left-0 h-[2px] w-full bg-[#2e4de0]"
+                    className="absolute -bottom-px left-0 h-[2px] w-full bg-[#ef3434]"
                   />
                 )}
               </button>
@@ -241,7 +241,7 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
               {tab === "fitment" && (
                 <ul className="grid max-w-2xl grid-cols-2 gap-2 text-sm">
                   {(product.fitment ?? ["Universal fitment — contact us to confirm."]).map((f) => (
-                    <li key={f} className="border-l-2 border-[#2e4de0] pl-3">
+                    <li key={f} className="border-l-2 border-[#ef3434] pl-3">
                       {f}
                     </li>
                   ))}

@@ -7,6 +7,7 @@ export type Section =
   | "escalations"
   | "suppliers"
   | "broadcast"
+  | "reviews"
   | "reports"
   | "audit"
   | "notifications"

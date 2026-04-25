@@ -20,7 +20,7 @@ export function CategoryRail() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-          className="overflow-hidden bg-[#2e4de0] text-white"
+          className="overflow-hidden bg-[#ef3434] text-white"
         >
           <div className="grid items-center gap-6 p-6 lg:grid-cols-[280px_1fr] lg:p-8">
             <div>
@@ -74,7 +74,7 @@ export function CategoryRail() {
                         loading="lazy"
                         className="h-full w-full object-cover transition duration-500 group-hover:scale-110"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-[#2e4de0]/60 to-transparent" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#ef3434]/60 to-transparent" />
                     </div>
                     <div className="mt-2 text-center text-sm font-medium text-white/95 transition group-hover:text-white">
                       {cat.name}

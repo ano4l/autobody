@@ -73,7 +73,7 @@ function CheckoutSuccessBody() {
 
           <div className="mt-6 grid gap-3 border-y border-[#e8e9ee] py-5 text-sm">
             <Row label="Order reference" value={<span className="font-mono">{ref}</span>} />
-            {amount > 0 && <Row label="Amount paid" value={<span className="font-bold text-[#2e4de0]">{formatZar(amount)}</span>} />}
+            {amount > 0 && <Row label="Amount paid" value={<span className="font-bold text-[#ef3434]">{formatZar(amount)}</span>} />}
             <Row
               label="Payment method"
               value={method === "payfast" ? "PayFast (test mode)" : method === "eft" ? "Manual EFT" : method}
@@ -88,7 +88,7 @@ function CheckoutSuccessBody() {
               { title: "Tracking", desc: "Courier tracking link goes out by email when stock leaves the workshop." },
               { title: "Need help?", desc: "Reply to your confirmation or call 012 943 7437." },
             ].map((step) => (
-              <div key={step.title} className="border-l-2 border-[#2e4de0] bg-[#f4f5f9] p-4">
+              <div key={step.title} className="border-l-2 border-[#ef3434] bg-[#f4f5f9] p-4">
                 <p className="text-xs font-bold uppercase tracking-[0.16em]">{step.title}</p>
                 <p className="mt-2 text-xs leading-5 text-[#6b6f7a]">{step.desc}</p>
               </div>
@@ -98,7 +98,7 @@ function CheckoutSuccessBody() {
           <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
             <Link
               href="/"
-              className="bg-[#0d1016] px-6 py-3 text-xs font-semibold uppercase tracking-[0.18em] text-white hover:bg-[#2e4de0] transition"
+              className="bg-[#0d1016] px-6 py-3 text-xs font-semibold uppercase tracking-[0.18em] text-white hover:bg-[#ef3434] transition"
             >
               Back to Home
             </Link>

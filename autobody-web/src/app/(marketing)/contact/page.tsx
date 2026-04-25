@@ -29,11 +29,11 @@ export default function ContactPage() {
       <section className="bg-[#0d1016] py-16 text-white">
         <div className="mx-auto max-w-[1400px] px-5 lg:px-8">
           <Reveal>
-            <p className="text-[11px] font-bold uppercase tracking-[0.32em] text-[#2e4de0]">
+            <p className="text-[11px] font-bold uppercase tracking-[0.32em] text-[#ef3434]">
               Contact
             </p>
             <h1 className="mt-4 font-display text-5xl uppercase leading-[0.95] sm:text-6xl">
-              Get a <span className="text-[#2e4de0]">Quote.</span>
+              Get a <span className="text-[#ef3434]">Quote.</span>
             </h1>
             <p className="mt-5 max-w-xl text-base leading-8 text-white/65">
               Send your VIN, photos, or vehicle details and we&apos;ll come back with fitment,
@@ -84,7 +84,7 @@ export default function ContactPage() {
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 type="submit"
-                className="mt-6 bg-[#2e4de0] px-8 py-3 text-xs font-semibold uppercase tracking-[0.2em] text-white transition hover:bg-[#3a5cf0]"
+                className="mt-6 bg-[#ef3434] px-8 py-3 text-xs font-semibold uppercase tracking-[0.2em] text-white transition hover:bg-[#f04444]"
               >
                 Send Request
               </motion.button>
@@ -92,7 +92,7 @@ export default function ContactPage() {
                 <motion.p
                   initial={{ opacity: 0, y: 6 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="mt-4 text-xs text-[#2e4de0]"
+                  className="mt-4 text-xs text-[#ef3434]"
                 >
                   Thanks — we will be in touch shortly.
                 </motion.p>
@@ -110,15 +110,15 @@ export default function ContactPage() {
                   South Africa
                 </p>
                 <div className="mt-5 grid gap-2 text-sm">
-                  <a href="tel:0129437437" className="text-white hover:text-[#2e4de0]">
+                  <a href="tel:0129437437" className="text-white hover:text-[#ef3434]">
                     Tel: 012 943 7437
                   </a>
-                  <a href="https://wa.me/27741945672" className="text-white hover:text-[#2e4de0]">
+                  <a href="https://wa.me/27741945672" className="text-white hover:text-[#ef3434]">
                     WhatsApp: 074 194 5672
                   </a>
                   <a
                     href="mailto:ferreirasautobodyparts@gmail.com"
-                    className="text-white hover:text-[#2e4de0] break-all"
+                    className="text-white hover:text-[#ef3434] break-all"
                   >
                     ferreirasautobodyparts@gmail.com
                   </a>
@@ -143,7 +143,7 @@ export default function ContactPage() {
                 </ul>
               </div>
 
-              <div className="bg-[#2e4de0] p-6 text-white">
+              <div className="bg-[#ef3434] p-6 text-white">
                 <h3 className="font-display text-xl uppercase">Need it fast?</h3>
                 <p className="mt-2 text-sm text-white/85">
                   Same-day Gauteng delivery on stock items. Browse the catalog to check
@@ -173,7 +173,7 @@ export default function ContactPage() {
           transition: border-color 0.2s;
         }
         .contact-input:focus {
-          border-color: #2e4de0;
+          border-color: #ef3434;
         }
         textarea.contact-input {
           height: auto;

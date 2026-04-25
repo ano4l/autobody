@@ -4,11 +4,11 @@ export default function NotFound() {
   return (
     <div className="grid min-h-screen place-items-center bg-[#0d1016] px-5 py-16 text-white">
       <div className="mx-auto max-w-xl text-center">
-        <p className="text-[11px] font-bold uppercase tracking-[0.32em] text-[#2e4de0]">
+        <p className="text-[11px] font-bold uppercase tracking-[0.32em] text-[#ef3434]">
           Error 404
         </p>
         <h1 className="mt-4 font-display text-6xl uppercase leading-[0.95] sm:text-7xl">
-          Part Not <span className="text-[#2e4de0]">Found</span>
+          Part Not <span className="text-[#ef3434]">Found</span>
         </h1>
         <p className="mt-5 max-w-md mx-auto text-sm leading-7 text-white/65">
           That page took the wrong turn at the workshop. The catalog has thousands of parts —
@@ -17,7 +17,7 @@ export default function NotFound() {
         <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
           <Link
             href="/"
-            className="bg-[#2e4de0] px-8 py-3 text-xs font-semibold uppercase tracking-[0.2em] text-white transition hover:bg-[#3a5cf0]"
+            className="bg-[#ef3434] px-8 py-3 text-xs font-semibold uppercase tracking-[0.2em] text-white transition hover:bg-[#f04444]"
           >
             Back to Home
           </Link>

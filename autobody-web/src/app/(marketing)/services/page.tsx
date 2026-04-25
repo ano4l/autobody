@@ -52,16 +52,16 @@ export default function ServicesPage() {
           className="absolute inset-0 opacity-30"
           style={{
             backgroundImage:
-              "radial-gradient(ellipse at top left, rgba(46,77,224,0.4) 0%, transparent 55%)",
+              "radial-gradient(ellipse at top left, rgba(239,52,52,0.4) 0%, transparent 55%)",
           }}
         />
         <div className="relative mx-auto max-w-[1400px] px-5 py-20 lg:px-8 lg:py-24">
           <Reveal>
-            <p className="text-[11px] font-bold uppercase tracking-[0.32em] text-[#2e4de0]">
+            <p className="text-[11px] font-bold uppercase tracking-[0.32em] text-[#ef3434]">
               What we do
             </p>
             <h1 className="mt-4 font-display text-5xl uppercase leading-[0.95] sm:text-6xl">
-              Parts. Fitment. <span className="text-[#2e4de0]">Done right.</span>
+              Parts. Fitment. <span className="text-[#ef3434]">Done right.</span>
             </h1>
             <p className="mt-5 max-w-xl text-base leading-8 text-white/65">
               From bumper covers to brake calipers, we source the right part the first time —
@@ -85,12 +85,12 @@ export default function ServicesPage() {
                   transition={{ type: "spring", stiffness: 320, damping: 20 }}
                   className="group h-full bg-white p-7"
                 >
-                  <p className="font-display text-sm text-[#2e4de0]">{s.n}</p>
+                  <p className="font-display text-sm text-[#ef3434]">{s.n}</p>
                   <h3 className="mt-4 text-xl font-bold">{s.title}</h3>
                   <p className="mt-3 text-sm leading-7 text-[#4f5360]">{s.desc}</p>
                   <Link
                     href="/shop"
-                    className="mt-5 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-[#2e4de0] hover:gap-3 transition-all"
+                    className="mt-5 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-[#ef3434] hover:gap-3 transition-all"
                   >
                     Browse parts →
                   </Link>
@@ -104,7 +104,7 @@ export default function ServicesPage() {
       <section className="bg-white py-16">
         <div className="mx-auto max-w-[1400px] px-5 lg:px-8">
           <Reveal>
-            <p className="text-[11px] font-bold uppercase tracking-[0.32em] text-[#2e4de0]">
+            <p className="text-[11px] font-bold uppercase tracking-[0.32em] text-[#ef3434]">
               How it works
             </p>
             <h2 className="mt-3 font-display text-3xl uppercase sm:text-4xl">
@@ -114,12 +114,12 @@ export default function ServicesPage() {
           <RevealGroup className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {PROCESS.map((p, i) => (
               <RevealItem key={p.step}>
-                <div className="relative border-l-2 border-[#2e4de0] bg-[#f4f5f9] p-6">
-                  <p className="font-display text-3xl text-[#2e4de0]">{p.step}</p>
+                <div className="relative border-l-2 border-[#ef3434] bg-[#f4f5f9] p-6">
+                  <p className="font-display text-3xl text-[#ef3434]">{p.step}</p>
                   <h3 className="mt-3 text-base font-bold">{p.title}</h3>
                   <p className="mt-2 text-sm leading-6 text-[#4f5360]">{p.desc}</p>
                   {i < PROCESS.length - 1 && (
-                    <span className="absolute right-3 top-1/2 hidden -translate-y-1/2 text-2xl text-[#2e4de0]/30 lg:block">
+                    <span className="absolute right-3 top-1/2 hidden -translate-y-1/2 text-2xl text-[#ef3434]/30 lg:block">
                       →
                     </span>
                   )}
@@ -142,7 +142,7 @@ export default function ServicesPage() {
             <div className="flex flex-wrap gap-3">
               <Link
                 href="/shop"
-                className="bg-[#2e4de0] px-8 py-3 text-xs font-semibold uppercase tracking-[0.2em] text-white transition hover:bg-[#3a5cf0]"
+                className="bg-[#ef3434] px-8 py-3 text-xs font-semibold uppercase tracking-[0.2em] text-white transition hover:bg-[#f04444]"
               >
                 Browse Catalog
               </Link>

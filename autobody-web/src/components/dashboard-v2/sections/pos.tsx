@@ -2,7 +2,7 @@
 
 import type { ElementType } from "react";
 import { useMemo, useState } from "react";
-import { Banknote, CreditCard, Minus, Plus, ReceiptText, Search, Smartphone, Trash2 } from "lucide-react";
+import { Banknote, CreditCard, Minus, Plus, ReceiptText, Search, Smartphone, Trash2, UserRoundPlus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { inventoryItems, type InventoryItem } from "@/lib/autobody-ops-demo-data";
@@ -22,6 +22,13 @@ export function PosSection() {
   const [cart, setCart] = useState<CartItem[]>([]);
   const [payment, setPayment] = useState<Payment>("Card");
   const [lastSale, setLastSale] = useState<string | null>("FS-1048");
+  const [captureDetails, setCaptureDetails] = useState(false);
+  const [customer, setCustomer] = useState({
+    name: "",
+    phone: "",
+    vehicle: "",
+    notes: "",
+  });
 
   const products = useMemo(() => {
     const needle = query.toLowerCase();
@@ -114,8 +121,28 @@ export function PosSection() {
           <div className="rounded-xl border border-border bg-card p-5 shadow-sm">
             <div className="flex items-center justify-between">
               <h3 className="font-semibold">Current Sale</h3>
-              <Badge tone="ink" dot>Walk-in customer</Badge>
+              <Badge tone={captureDetails ? "clay" : "ink"} dot>
+                {captureDetails ? "Details captured" : "Walk-in customer"}
+              </Badge>
             </div>
+            <button
+              onClick={() => setCaptureDetails((value) => !value)}
+              className="mt-4 flex w-full items-center justify-between rounded-lg border border-border bg-secondary/60 px-3 py-2 text-sm transition hover:bg-secondary"
+            >
+              <span className="flex items-center gap-2 font-medium">
+                <UserRoundPlus className="h-4 w-4 text-accent" />
+                Capture customer / vehicle details
+              </span>
+              <span className="text-xs text-muted-foreground">{captureDetails ? "Hide" : "Open"}</span>
+            </button>
+            {captureDetails ? (
+              <div className="mt-3 grid gap-2 rounded-lg border border-border bg-background p-3">
+                <input value={customer.name} onChange={(event) => setCustomer({ ...customer, name: event.target.value })} placeholder="Customer name" className="h-9 rounded-lg border border-border bg-card px-3 text-sm outline-none focus:border-accent" />
+                <input value={customer.phone} onChange={(event) => setCustomer({ ...customer, phone: event.target.value })} placeholder="Phone / WhatsApp" className="h-9 rounded-lg border border-border bg-card px-3 text-sm outline-none focus:border-accent" />
+                <input value={customer.vehicle} onChange={(event) => setCustomer({ ...customer, vehicle: event.target.value })} placeholder="Vehicle make, model, year" className="h-9 rounded-lg border border-border bg-card px-3 text-sm outline-none focus:border-accent" />
+                <textarea value={customer.notes} onChange={(event) => setCustomer({ ...customer, notes: event.target.value })} placeholder="Fitment notes, VIN, colour, delivery request" rows={3} className="rounded-lg border border-border bg-card px-3 py-2 text-sm outline-none focus:border-accent" />
+              </div>
+            ) : null}
             <div className="mt-4 min-h-40 space-y-3">
               {cart.length === 0 ? (
                 <div className="grid min-h-36 place-items-center rounded-lg border border-dashed border-border text-sm text-muted-foreground">
@@ -184,6 +211,8 @@ export function PosSection() {
               <p>FERREIRA&apos;S AUTOBODY SPARES</p>
               <p>Receipt: {lastSale ?? "Pending"}</p>
               <p>Payment: {payment}</p>
+              {captureDetails && customer.name ? <p>Customer: {customer.name}</p> : null}
+              {captureDetails && customer.vehicle ? <p>Vehicle: {customer.vehicle}</p> : null}
               <p className="my-2 border-t border-border" />
               {cart.length === 0 ? <p>No active items</p> : cart.map((item) => <p key={item.id}>{item.quantity}x {item.sku} R{(item.price * item.quantity).toFixed(2)}</p>)}
               <p className="my-2 border-t border-border" />

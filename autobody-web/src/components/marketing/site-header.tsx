@@ -52,13 +52,13 @@ export function SiteHeader() {
             <motion.span
               whileHover={{ rotate: -6, scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="grid h-9 w-9 place-items-center bg-[#2e4de0] font-display text-xs text-white"
+              className="grid h-9 w-9 place-items-center bg-[#ef3434] font-display text-xs text-white"
             >
               FS
             </motion.span>
             <div className="leading-tight">
               <div className="font-display text-base tracking-[0.04em]">
-                Ferreira&apos;s<span className="text-[#2e4de0]">.</span>
+                Ferreira&apos;s<span className="text-[#ef3434]">.</span>
               </div>
             </div>
           </Link>
@@ -82,7 +82,7 @@ export function SiteHeader() {
                   {active && (
                     <motion.span
                       layoutId="nav-underline"
-                      className="absolute -bottom-1 left-0 h-[2px] w-full bg-[#2e4de0]"
+                      className="absolute -bottom-1 left-0 h-[2px] w-full bg-[#ef3434]"
                       transition={{ type: "spring", stiffness: 380, damping: 30 }}
                     />
                   )}
@@ -140,7 +140,7 @@ export function SiteHeader() {
                   animate={{ scale: 1, opacity: 1 }}
                   exit={{ scale: 0.4, opacity: 0 }}
                   transition={{ type: "spring", stiffness: 420, damping: 18 }}
-                  className="grid h-5 min-w-5 place-items-center rounded-full bg-[#2e4de0] px-1 text-[10px] font-bold text-white"
+                  className="grid h-5 min-w-5 place-items-center rounded-full bg-[#ef3434] px-1 text-[10px] font-bold text-white"
                 >
                   {itemCount}
                 </motion.span>
@@ -188,7 +188,7 @@ export function SiteHeader() {
                 <Link
                   href="/login"
                   onClick={() => setMenuOpen(false)}
-                  className="py-2 text-sm text-[#2e4de0]"
+                  className="py-2 text-sm text-[#ef3434]"
                 >
                   Sign In
                 </Link>

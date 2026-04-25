@@ -59,7 +59,7 @@ export function ProductCard({ product, priority }: { product: Product; priority?
 
         <div className="border-t border-[#e8e9ee] p-4">
           <div className="mb-3 flex flex-wrap items-center gap-2">
-            <span className="rounded-full bg-[#eef2ff] px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-[#2e4de0]">
+            <span className="rounded-full bg-[#fff1f1] px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-[#ef3434]">
               {product.condition}
             </span>
             <span className="rounded-full bg-[#f3f5f8] px-2.5 py-1 text-[10px] font-medium text-[#596070]">
@@ -88,7 +88,7 @@ export function ProductCard({ product, priority }: { product: Product; priority?
               whileTap={{ scale: 0.92 }}
               onClick={handleAdd}
               aria-label="Add to cart"
-              className="relative grid h-9 w-9 place-items-center rounded-lg bg-[#0d1016] text-white transition hover:bg-[#2e4de0]"
+              className="relative grid h-9 w-9 place-items-center rounded-lg bg-[#0d1016] text-white transition hover:bg-[#ef3434]"
             >
               <AnimatePresence mode="wait">
                 {flash ? (

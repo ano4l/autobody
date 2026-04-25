@@ -136,7 +136,7 @@ export default function CheckoutPage() {
                     <label
                       key={opt.key}
                       className={`cursor-pointer border p-4 transition ${
-                        delivery === opt.key ? "border-[#2e4de0] bg-[#2e4de0]/5" : "border-[#dedede]"
+                        delivery === opt.key ? "border-[#ef3434] bg-[#ef3434]/5" : "border-[#dedede]"
                       }`}
                     >
                       <div className="flex items-start justify-between gap-3">
@@ -152,7 +152,7 @@ export default function CheckoutPage() {
                           <p className="text-sm font-semibold">{opt.title}</p>
                           <p className="mt-1 text-xs text-[#6b6f7a]">{opt.desc}</p>
                         </div>
-                        <span className="text-xs font-semibold text-[#2e4de0]">{opt.meta}</span>
+                        <span className="text-xs font-semibold text-[#ef3434]">{opt.meta}</span>
                       </div>
                     </label>
                   ))}
@@ -205,7 +205,7 @@ export default function CheckoutPage() {
                     <label
                       key={opt.key}
                       className={`cursor-pointer border p-4 transition ${
-                        payment === opt.key ? "border-[#2e4de0] bg-[#2e4de0]/5" : "border-[#dedede]"
+                        payment === opt.key ? "border-[#ef3434] bg-[#ef3434]/5" : "border-[#dedede]"
                       }`}
                     >
                       <input
@@ -222,7 +222,7 @@ export default function CheckoutPage() {
                           <p className="mt-1 text-xs text-[#6b6f7a]">{opt.desc}</p>
                         </div>
                         {"tag" in opt && opt.tag && (
-                          <span className="bg-[#2e4de0] px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-white">
+                          <span className="bg-[#ef3434] px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-white">
                             {opt.tag}
                           </span>
                         )}
@@ -248,7 +248,7 @@ export default function CheckoutPage() {
                         <p className="line-clamp-2 text-xs font-medium">{line.name}</p>
                         <p className="text-[11px] text-[#6b6f7a]">x{line.quantity}</p>
                       </div>
-                      <span className="text-xs font-bold text-[#2e4de0]">
+                      <span className="text-xs font-bold text-[#ef3434]">
                         {formatZar(line.price * line.quantity)}
                       </span>
                     </li>
@@ -260,7 +260,7 @@ export default function CheckoutPage() {
                     <span className="font-semibold">{formatZar(totals.subtotal)}</span>
                   </div>
                   {totals.discount > 0 && (
-                    <div className="flex items-center justify-between text-[#2e4de0]">
+                    <div className="flex items-center justify-between text-[#ef3434]">
                       <span>Discount</span>
                       <span>-{formatZar(totals.discount)}</span>
                     </div>
@@ -281,7 +281,7 @@ export default function CheckoutPage() {
                   whileTap={{ scale: submitting ? 1 : 0.98 }}
                   type="submit"
                   disabled={submitting}
-                  className="mt-5 w-full bg-[#2e4de0] py-4 text-xs font-semibold uppercase tracking-[0.2em] text-white transition hover:bg-[#3a5cf0] disabled:opacity-60"
+                  className="mt-5 w-full bg-[#ef3434] py-4 text-xs font-semibold uppercase tracking-[0.2em] text-white transition hover:bg-[#f04444] disabled:opacity-60"
                 >
                   {submitting ? "Processing…" : payment === "payfast" ? "Pay With PayFast" : "Submit Order"}
                 </motion.button>
@@ -306,7 +306,7 @@ export default function CheckoutPage() {
           transition: border-color 0.2s;
         }
         .checkout-input:focus {
-          border-color: #2e4de0;
+          border-color: #ef3434;
         }
         textarea.checkout-input {
           height: auto;

@@ -68,7 +68,7 @@ export function CartDrawer() {
                   <Link
                     href="/shop"
                     onClick={close}
-                    className="mt-4 bg-[#2e4de0] px-6 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-white hover:bg-[#3a5cf0]"
+                    className="mt-4 bg-[#ef3434] px-6 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-white hover:bg-[#f04444]"
                   >
                     Browse Shop
                   </Link>
@@ -105,7 +105,7 @@ export function CartDrawer() {
                             <div className="flex items-center gap-1">
                               <button
                                 onClick={() => setQuantity(line.slug, line.quantity - 1)}
-                                className="grid h-7 w-7 place-items-center border border-[#d7d7d7] text-sm hover:border-[#2e4de0]"
+                                className="grid h-7 w-7 place-items-center border border-[#d7d7d7] text-sm hover:border-[#ef3434]"
                               >
                                 -
                               </button>
@@ -114,12 +114,12 @@ export function CartDrawer() {
                               </span>
                               <button
                                 onClick={() => setQuantity(line.slug, line.quantity + 1)}
-                                className="grid h-7 w-7 place-items-center border border-[#d7d7d7] text-sm hover:border-[#2e4de0]"
+                                className="grid h-7 w-7 place-items-center border border-[#d7d7d7] text-sm hover:border-[#ef3434]"
                               >
                                 +
                               </button>
                             </div>
-                            <span className="text-sm font-bold text-[#2e4de0]">
+                            <span className="text-sm font-bold text-[#ef3434]">
                               {formatZar(line.price * line.quantity)}
                             </span>
                           </div>
@@ -149,7 +149,7 @@ export function CartDrawer() {
                   <Link
                     href="/checkout"
                     onClick={close}
-                    className="bg-[#2e4de0] px-4 py-3 text-center text-xs font-semibold uppercase tracking-[0.18em] text-white transition hover:bg-[#3a5cf0]"
+                    className="bg-[#ef3434] px-4 py-3 text-center text-xs font-semibold uppercase tracking-[0.18em] text-white transition hover:bg-[#f04444]"
                   >
                     Checkout
                   </Link>
