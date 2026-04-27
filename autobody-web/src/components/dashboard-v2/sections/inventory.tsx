@@ -24,6 +24,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { inventoryItems, stockMovements, suppliers, type InventoryItem } from "@/lib/autobody-ops-demo-data";
+import { toast } from "@/lib/toast";
 
 const categories = ["All", "Bumpers", "Headlights", "Fenders", "Tail Lights", "Grilles", "Mirrors"];
 const brands = ["All", "Toyota", "Volkswagen", "BMW", "Ford", "Mercedes-Benz", "Hyundai"];
@@ -113,6 +114,22 @@ export function InventorySection() {
     setItems((prev) => prev.map((item) => (item.id === id ? { ...item, ...patch } : item)));
   };
 
+  const receiveStock = (item: InventoryItem) => {
+    updateItem(item.id, { stock: item.stock + 5, lastMovement: "Receipt by Jan Ferreira, just now" });
+    toast.success("Stock received", `Added 5 units of ${item.name} (now ${item.stock + 5} on hand).`);
+  };
+
+  const deleteItem = (item: InventoryItem) => {
+    setItems((prev) => prev.filter((candidate) => candidate.id !== item.id));
+    setSelectedIds((prev) => prev.filter((id) => id !== item.id));
+    toast.warning("Item removed", `${item.name} (${item.sku}) deleted from the catalogue.`);
+  };
+
+  const saveInline = () => {
+    setEditingId(null);
+    toast.success("Changes saved", "Inventory record updated locally.");
+  };
+
   const toggleSelected = (id: string) => {
     setSelectedIds((prev) => (prev.includes(id) ? prev.filter((selected) => selected !== id) : [...prev, id]));
   };
@@ -131,22 +148,24 @@ export function InventorySection() {
   };
 
   const addItem = () => {
-    if (!draft.name || !draft.sku) return;
-    setItems((prev) => [
-      {
-        id: `inv-${Date.now()}`,
-        ...draft,
-        cost: draft.cost || Math.round(draft.price * 0.62),
-        supplier: draft.supplier || "Admin added",
-        location: draft.location || "Receiving",
-        compatibility: draft.compatibility || draft.model || "Fitment to confirm",
-        monthlySales: 0,
-        lastMovement: "Created by Admin, just now",
-      },
-      ...prev,
-    ]);
+    if (!draft.name || !draft.sku) {
+      toast.error("Missing details", "Part name and SKU are required before saving.");
+      return;
+    }
+    const newItem: InventoryItem = {
+      id: `inv-${Date.now()}`,
+      ...draft,
+      cost: draft.cost || Math.round(draft.price * 0.62),
+      supplier: draft.supplier || "Admin added",
+      location: draft.location || "Receiving",
+      compatibility: draft.compatibility || draft.model || "Fitment to confirm",
+      monthlySales: 0,
+      lastMovement: "Created by Admin, just now",
+    };
+    setItems((prev) => [newItem, ...prev]);
     setDraft(blankDraft);
     setShowAdd(false);
+    toast.success("Item created", `${newItem.name} (${newItem.sku}) added to inventory.`);
   };
 
   return (
@@ -163,11 +182,23 @@ export function InventorySection() {
           </p>
         </div>
         <div className="flex flex-wrap gap-2">
-          <Button variant="outline" className="rounded-lg">
+          <Button
+            variant="outline"
+            className="rounded-lg"
+            onClick={() =>
+              toast.info("CSV import", "Drop a CSV onto the dashboard once the supplier price file lands.")
+            }
+          >
             <Upload className="h-4 w-4" />
             Import CSV
           </Button>
-          <Button variant="outline" className="rounded-lg">
+          <Button
+            variant="outline"
+            className="rounded-lg"
+            onClick={() =>
+              toast.success("Inventory exported", `${enrichedItems.length} rows downloaded as inventory.csv (demo).`)
+            }
+          >
             <Download className="h-4 w-4" />
             Export
           </Button>
@@ -376,12 +407,30 @@ export function InventorySection() {
         </div>
 
         {selectedCount > 0 ? (
-          <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border bg-clay-50/70 px-4 py-3 text-sm">
+          <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border bg-accent/10 px-4 py-3 text-sm">
             <span className="font-medium">{selectedCount} item{selectedCount === 1 ? "" : "s"} selected</span>
             <div className="flex flex-wrap gap-2">
-              <Button variant="outline" size="sm">Create PO</Button>
-              <Button variant="outline" size="sm">Adjust stock</Button>
-              <Button variant="outline" size="sm">Print labels</Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => toast.info("Purchase order drafted", `${selectedCount} item${selectedCount === 1 ? "" : "s"} queued for the suppliers desk.`)}
+              >
+                Create PO
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => toast.success("Stock adjusted", `Counts updated for ${selectedCount} selected SKUs.`)}
+              >
+                Adjust stock
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => toast.info("Labels queued", `Sent ${selectedCount} bin labels to the warehouse printer.`)}
+              >
+                Print labels
+              </Button>
               <Button variant="ghost" size="sm" onClick={() => setSelectedIds([])}>Clear</Button>
             </div>
           </div>
@@ -392,7 +441,7 @@ export function InventorySection() {
             const health = stockHealth(item);
             const selected = selectedIds.includes(item.id);
             return (
-              <article key={`mobile-${item.id}`} className={cn("p-4", selected && "bg-clay-50/60")}>
+              <article key={`mobile-${item.id}`} className={cn("p-4", selected && "bg-secondary/50")}>
                 <div className="flex items-start gap-3">
                   <input type="checkbox" checked={selected} onChange={() => toggleSelected(item.id)} className="mt-1 h-4 w-4 rounded border-border" />
                   <img src={item.image} alt="" className="h-20 w-24 shrink-0 rounded-lg object-cover" />
@@ -430,8 +479,8 @@ export function InventorySection() {
                 <p className="mt-3 text-xs text-muted-foreground">{item.brand} {item.model} - {item.compatibility}</p>
                 <div className="mt-3 grid grid-cols-3 gap-2">
                   <Button variant="outline" size="sm" onClick={() => setEditingId(editingId === item.id ? null : item.id)}>Edit</Button>
-                  <Button size="sm" onClick={() => updateItem(item.id, { stock: item.stock + 5, lastMovement: "Receipt by Jan Ferreira, just now" })}>Receive</Button>
-                  <Button variant="danger" size="sm" onClick={() => setItems((prev) => prev.filter((candidate) => candidate.id !== item.id))}>Delete</Button>
+                  <Button size="sm" onClick={() => receiveStock(item)}>Receive</Button>
+                  <Button variant="danger" size="sm" onClick={() => deleteItem(item)}>Delete</Button>
                 </div>
                 {editingId === item.id ? (
                   <div className="mt-3 grid gap-2 rounded-lg border border-border bg-background p-3">
@@ -441,7 +490,7 @@ export function InventorySection() {
                       <input type="number" value={item.price} onChange={(event) => updateItem(item.id, { price: Number(event.target.value) })} className="h-9 rounded-lg border border-border bg-card px-3 text-sm" />
                       <input type="number" value={item.stock} onChange={(event) => updateItem(item.id, { stock: Number(event.target.value) })} className="h-9 rounded-lg border border-border bg-card px-3 text-sm" />
                     </div>
-                    <Button variant="secondary" size="sm" onClick={() => setEditingId(null)}>Save changes</Button>
+                    <Button variant="secondary" size="sm" onClick={saveInline}>Save changes</Button>
                   </div>
                 ) : null}
               </article>
@@ -473,7 +522,7 @@ export function InventorySection() {
                 const selected = selectedIds.includes(item.id);
                 return (
                   <Fragment key={item.id}>
-                    <tr className={cn("align-top transition hover:bg-secondary/35", selected && "bg-clay-50/60")}>
+                    <tr className={cn("align-top transition hover:bg-secondary/35", selected && "bg-secondary/50")}>
                       <td className="px-4 py-4">
                         <input type="checkbox" checked={selected} onChange={() => toggleSelected(item.id)} className="h-4 w-4 rounded border-border" />
                       </td>
@@ -524,11 +573,11 @@ export function InventorySection() {
                             <Pencil className="h-4 w-4" />
                             Edit
                           </Button>
-                          <Button size="sm" onClick={() => updateItem(item.id, { stock: item.stock + 5, lastMovement: "Receipt by Jan Ferreira, just now" })}>
+                          <Button size="sm" onClick={() => receiveStock(item)}>
                             <PackagePlus className="h-4 w-4" />
                             Receive
                           </Button>
-                          <Button variant="danger" size="sm" onClick={() => setItems((prev) => prev.filter((candidate) => candidate.id !== item.id))}>
+                          <Button variant="danger" size="sm" onClick={() => deleteItem(item)}>
                             <Trash2 className="h-4 w-4" />
                           </Button>
                         </div>
@@ -545,7 +594,7 @@ export function InventorySection() {
                             <input type="number" value={item.cost} onChange={(event) => updateItem(item.id, { cost: Number(event.target.value) })} className="h-9 rounded-lg border border-border bg-background px-3 text-sm" />
                             <input type="number" value={item.stock} onChange={(event) => updateItem(item.id, { stock: Number(event.target.value) })} className="h-9 rounded-lg border border-border bg-background px-3 text-sm" />
                             <input value={item.location} onChange={(event) => updateItem(item.id, { location: event.target.value })} className="h-9 rounded-lg border border-border bg-background px-3 text-sm" />
-                            <Button variant="secondary" size="sm" onClick={() => setEditingId(null)}>Save</Button>
+                            <Button variant="secondary" size="sm" onClick={saveInline}>Save</Button>
                           </div>
                         </td>
                       </tr>

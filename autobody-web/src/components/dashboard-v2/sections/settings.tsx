@@ -1,6 +1,7 @@
 "use client";
 
 import { User, Building2, Shield, Bell } from "lucide-react";
+import { toast } from "@/lib/toast";
 
 export function SettingsSection() {
   return (
@@ -33,7 +34,12 @@ export function SettingsSection() {
             </div>
 
             <div className="mt-4 flex justify-end">
-              <button className="px-4 py-2 bg-accent text-accent-foreground rounded-lg text-sm font-medium hover:bg-accent/90 transition-colors">
+              <button
+                onClick={() =>
+                  toast.success("Profile saved", "Account settings updated for this session.")
+                }
+                className="px-4 py-2 bg-accent text-accent-foreground rounded-lg text-sm font-medium hover:bg-accent/90 transition-colors"
+              >
                 Save Changes
               </button>
             </div>

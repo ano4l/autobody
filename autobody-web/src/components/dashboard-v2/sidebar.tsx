@@ -71,17 +71,20 @@ export function DashboardSidebar({
     >
       <div className="h-16 flex items-center px-4 border-b border-sidebar-border">
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0 bg-foreground text-background">
-            <Wrench className="w-5 h-5" />
+          <div className="w-9 h-9 rounded-sm flex items-center justify-center shrink-0 bg-[#ef3434]">
+            <Wrench className="w-5 h-5 text-white" />
           </div>
-          <span
+          <div
             className={cn(
-              "font-semibold text-lg text-sidebar-foreground whitespace-nowrap transition-all duration-300",
-              collapsed ? "opacity-0 w-0" : "opacity-100 w-auto",
+              "whitespace-nowrap transition-all duration-300 leading-tight",
+              collapsed ? "opacity-0 w-0 overflow-hidden" : "opacity-100 w-auto",
             )}
           >
-            Ferreira&apos;s
-          </span>
+            <div className="font-display text-sm tracking-[0.05em] text-sidebar-foreground">
+              Ferreira&apos;s<span className="text-[#ef3434]">.</span>
+            </div>
+            <div className="text-[9px] uppercase tracking-[0.16em] text-sidebar-foreground/40">Autobody Spares</div>
+          </div>
         </div>
       </div>
 

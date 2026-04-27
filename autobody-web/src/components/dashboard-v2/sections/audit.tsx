@@ -3,8 +3,8 @@
 import { useState, useEffect, useCallback } from "react";
 import { cn } from "@/lib/utils";
 import { Loader2, RefreshCw, Activity } from "lucide-react";
-import { getAuditLog } from "@/lib/dashboard-autobody-seed";
-import type { AuditEvent } from "@/lib/dashboard-autobody-seed";
+import { getAuditLog } from "@/lib/dashboard-service";
+import type { AuditEvent } from "@/lib/dashboard-service";
 
 const actionColors: Record<string, string> = {
   order_created: "text-chart-1",

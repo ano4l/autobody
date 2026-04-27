@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Megaphone, Send, Smartphone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { toast } from "@/lib/toast";
 
 const history = [
   { title: "Weekend bumper clearance", audience: "Business WhatsApp group", sent: "24 Apr 2026 08:00", reach: "312 delivered" },
@@ -15,6 +16,15 @@ export function BroadcastSection() {
   const [title, setTitle] = useState("Toyota Corolla bumper stock just landed");
   const [message, setMessage] = useState("Fresh aftermarket front bumpers available today. Reply with vehicle year and colour prep requirements for a fast quote.");
   const [sent, setSent] = useState(false);
+
+  const send = () => {
+    if (!title.trim() || !message.trim()) {
+      toast.error("Missing copy", "Both title and message are required before posting.");
+      return;
+    }
+    setSent(true);
+    toast.success("Broadcast queued", `“${title}” posted to the business WhatsApp group.`);
+  };
 
   return (
     <div className="grid gap-6 xl:grid-cols-[1fr_360px]">
@@ -45,7 +55,7 @@ export function BroadcastSection() {
                 <Badge key={audience} tone={audience === "Business group" ? "ink" : "neutral"}>{audience}</Badge>
               ))}
             </div>
-            <Button className="rounded-lg" onClick={() => setSent(true)}>
+            <Button className="rounded-lg" onClick={send}>
               <Send className="h-4 w-4" />
               Post to WhatsApp Group
             </Button>

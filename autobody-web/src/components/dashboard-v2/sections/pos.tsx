@@ -12,6 +12,7 @@ import {
   ReceiptText,
   Search,
   ShieldCheck,
+  ShoppingCart,
   Smartphone,
   Trash2,
   UserRoundPlus,
@@ -20,6 +21,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { inventoryItems, type InventoryItem } from "@/lib/autobody-ops-demo-data";
 import { cn } from "@/lib/utils";
+import { toast } from "@/lib/toast";
 
 type CartItem = InventoryItem & { quantity: number };
 type Payment = "Cash" | "Card" | "EFT";
@@ -74,33 +76,53 @@ export function PosSection() {
   };
 
   const completeSale = () => {
-    if (cart.length === 0) return;
-    setLastSale(`FS-${Math.floor(1100 + Math.random() * 800)}`);
+    if (cart.length === 0) {
+      toast.error("Empty cart", "Add at least one item before completing the sale.");
+      return;
+    }
+    const ref = `FS-${Math.floor(1100 + Math.random() * 800)}`;
+    const totalSnapshot = total;
+    const unitsSnapshot = cartUnits;
+    setLastSale(ref);
     setCart([]);
+    toast.success(
+      `Sale ${ref} completed`,
+      `${unitsSnapshot} unit${unitsSnapshot === 1 ? "" : "s"} · R ${totalSnapshot.toLocaleString("en-ZA", { maximumFractionDigits: 2 })} · Receipt PDF generated.`,
+    );
   };
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col gap-4 xl:flex-row xl:items-end xl:justify-between">
+      <div className="flex flex-col gap-4 xl:flex-row xl:items-center xl:justify-between">
         <div>
-          <h2 className="text-lg font-semibold text-foreground">POS Terminal</h2>
+          <div className="flex items-center gap-2 text-xs font-medium uppercase tracking-wide text-muted-foreground">
+            <ShoppingCart className="h-4 w-4" />
+            Ferreira&apos;s POS
+          </div>
+          <h2 className="mt-1 text-xl font-semibold text-foreground">POS Terminal</h2>
           <p className="mt-0.5 text-sm text-muted-foreground">
-            Corporate walk-in sales terminal with stock validation, customer capture, quote hold, and receipt preview.
+            Walk-in sales terminal with stock validation, customer capture, quote hold, and receipt preview.
           </p>
         </div>
-        <div className="grid gap-2 sm:grid-cols-4 xl:min-w-[680px]">
-          {[
-            ["Terminal", "JHB-01"],
-            ["Cashier", "Jan Ferreira"],
-            ["Receipt", lastSale ?? "Pending"],
-            ["Cart", `${cartUnits} units`],
-          ].map(([label, value]) => (
-            <div key={label} className="rounded-xl border border-border bg-card px-4 py-3 shadow-sm">
-              <p className="text-xs text-muted-foreground">{label}</p>
-              <p className="mt-1 text-sm font-semibold">{value}</p>
-            </div>
-          ))}
-        </div>
+      </div>
+
+      <div className="grid gap-3 sm:grid-cols-4">
+        {[
+          { label: "Terminal", value: "JHB-01", caption: "Active session" },
+          { label: "Cashier", value: "Jan Ferreira", caption: "Logged in" },
+          { label: "Last Receipt", value: lastSale ?? "Pending", caption: "Previous sale" },
+          { label: "Cart", value: `${cartUnits} units`, caption: `R ${total.toLocaleString("en-ZA", { maximumFractionDigits: 0 })} total` },
+        ].map((stat, i) => (
+          <div
+            key={stat.label}
+            className="rounded-xl border border-border bg-card px-4 py-3 shadow-sm animate-in fade-in slide-in-from-bottom-4"
+            style={{ animationDelay: `${i * 60}ms`, animationFillMode: "both" }}
+          >
+            <p className="text-xs text-muted-foreground">{stat.label}</p>
+            <p className="mt-1 text-sm font-semibold text-foreground">{stat.value}</p>
+            <p className="text-xs text-muted-foreground mt-0.5">{stat.caption}</p>
+          </div>
+        ))}
       </div>
 
       <div className="grid gap-6 2xl:grid-cols-[1fr_460px]">
@@ -116,11 +138,27 @@ export function PosSection() {
                   className="h-11 w-full rounded-lg border border-border bg-background pl-9 pr-3 text-sm outline-none focus:border-accent"
                 />
               </label>
-              <Button variant="outline" className="rounded-lg">
+              <Button
+                variant="outline"
+                className="rounded-lg"
+                onClick={() =>
+                  toast.info("Scanner ready", "Connect a USB barcode scanner — the search input above will receive the SKU.")
+                }
+              >
                 <Barcode className="h-4 w-4" />
                 Scan Item
               </Button>
-              <Button variant="secondary" className="rounded-lg">
+              <Button
+                variant="secondary"
+                className="rounded-lg"
+                onClick={() => {
+                  if (cart.length === 0) {
+                    toast.error("Nothing to hold", "Add at least one part to the cart before saving a quote.");
+                    return;
+                  }
+                  toast.success("Quote held", `Saved ${cartUnits} unit${cartUnits === 1 ? "" : "s"} · R ${total.toLocaleString("en-ZA", { maximumFractionDigits: 2 })} for retrieval at any terminal.`);
+                }}
+              >
                 <FileText className="h-4 w-4" />
                 Quote Hold
               </Button>

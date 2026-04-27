@@ -72,10 +72,22 @@ interface FieldProps {
 }
 
 export function Field({ label, hint, error, children }: FieldProps) {
+  const generatedId = React.useId();
+  let resolvedId: string | undefined;
+  let renderedChild: React.ReactNode = children;
+
+  if (React.isValidElement(children)) {
+    const element = children as React.ReactElement<{ id?: string }>;
+    resolvedId = element.props.id ?? generatedId;
+    if (!element.props.id) {
+      renderedChild = React.cloneElement(element, { id: resolvedId });
+    }
+  }
+
   return (
     <div className="space-y-1.5">
-      <Label>{label}</Label>
-      {children}
+      <Label htmlFor={resolvedId}>{label}</Label>
+      {renderedChild}
       {error ? (
         <p className="text-xs text-rust-600">{error}</p>
       ) : hint ? (

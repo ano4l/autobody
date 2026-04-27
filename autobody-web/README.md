@@ -26,14 +26,60 @@ Open http://localhost:3000.
 
 ### Workspace
 - `/login` — fake login (any email + password works)
-- `/dashboard` — operations workspace, replicating the e-Requisition design system 1:1
-  - State-routed sections via `?section=`: `overview`, `requisitions`, `approvals`, `reports`, `audit`, `notifications`, `faq`, `settings`
-  - Light + dark theme, collapsible sidebar, animated section transitions
-  - All data is seeded deterministically from `src/lib/dashboard-seed.ts`
+- `/dashboard` — single-page operations workspace, deep-linkable via `?section=`:
+  - `overview` — commercial command centre (today's sales, channel mix, branch performance, risk register, supplier snapshot)
+  - `inventory` — item master, stock health, reorder, bulk actions, mobile card view
+  - `pos` — walk-in POS terminal with cart, payment selector, receipt preview
+  - `orders` — order ledger with search, status filter, paginated table, New Order modal
+  - `conversations` — WhatsApp / SMS / email / phone inbox with reply drawer + escalate / resolve
+  - `escalations` — bot-handoff queue with claim / chat / call actions
+  - `suppliers` — vendor cards, reorder watch, draft purchase orders
+  - `broadcast` — WhatsApp group blast composer with live preview
+  - `reviews` — Google review mirror
+  - `reports` — recharts breakdowns (revenue, channel mix, time series, top movers, dead stock, margin)
+  - `audit`, `notifications`, `faq`, `settings`
+- Light + dark theme, collapsible sidebar, mobile bottom nav, animated section transitions
+- All data is seeded deterministically from `src/lib/dashboard-autobody-seed.ts` and `src/lib/autobody-ops-demo-data.ts`. Mutations (new orders, escalations, replies, item edits) live in component state and surface through a global toast system (`src/lib/toast.ts`).
 
 ## Demo credentials
 
-Demo mode is on — any email + password signs you in. The user is synthesised as `Demo Admin` and persisted to `localStorage`.
+Demo mode is on by default — any email + password signs you in. The user is synthesised as `Demo Admin` and persisted to `localStorage`.
+
+## Real mode (full stack against `autobody-api`)
+
+Flip the dashboard from seeded data to live backend calls in two steps.
+
+**1. Start the backend.** From `../autobody-api`:
+
+```bash
+docker compose up -d                # Postgres 16 + Redis 7
+cp .env.local.example .env.local    # JWT_SECRET, DB creds, etc.
+mvn spring-boot:run                 # listens on http://localhost:8080
+```
+
+Flyway runs `V5__seed_admin_user.sql` on first boot. Default credentials:
+
+```
+admin@autobody.local / Admin@1234
+```
+
+**2. Start the frontend in real mode.** From this directory, in `.env.local`:
+
+```env
+NEXT_PUBLIC_AUTH_MODE=real
+NEXT_PUBLIC_API_BASE_URL=http://localhost:8080
+```
+
+Then `npm run dev`, browse to <http://localhost:3000/login>, sign in with the
+backend admin credentials, and the dashboard sections wired in `D2/D3` (overview,
+orders, conversations) will fetch live data via `/api/dashboard/stats`,
+`/api/orders`, `/api/conversations`. Notifications, audit, and reports remain
+seeded for now.
+
+If either flag is missing, behaviour falls back to demo mode (silent). On a
+401 from the backend, the dashboard hard-redirects to `/login?next=...`.
+
+See `.env.example` for the full variable reference.
 
 ## Stack
 
@@ -44,17 +90,12 @@ Demo mode is on — any email + password signs you in. The user is synthesised a
 - Recharts for dashboard analytics
 - Lucide icons
 
-## Deploying to Vercel
+## Deploying
 
-The repo is Vercel-ready out of the box.
+Both **Netlify** (`netlify.toml`) and **Vercel** (`vercel.json`) are configured.
+See [`DEPLOYMENT.md`](./DEPLOYMENT.md) for copy-pastable CLI commands, env vars, and post-deploy smoke checks.
 
-1. Push the `autobody-web` directory to a Git host.
-2. In Vercel, **New Project → Import**.
-3. Framework preset auto-detects as **Next.js**. No env vars are required (the demo is self-contained).
-4. Optional: copy `.env.example` into the project's environment variables if you want to label the deployment with custom demo credentials.
-5. Hit **Deploy**.
-
-`vercel.json` pins the framework, build command, and install command. There is no API route that requires server runtime tuning — everything is statically prerendered or rendered on the client.
+The demo is self-contained — zero env vars are required for a working deploy.
 
 ## Local commands
 

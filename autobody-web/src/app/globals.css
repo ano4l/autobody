@@ -4,7 +4,7 @@
 
 @layer base {
   :root {
-    --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+    --font-sans: "DM Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
     --font-serif: ui-serif, Georgia, "Source Serif Pro", serif;
     --glass-border: rgba(255, 255, 255, 0.72);
     --glass-bg: rgba(255, 255, 255, 0.76);
@@ -107,11 +107,12 @@
   }
 
   *:focus-visible {
-    @apply outline-none ring-2 ring-red-500/60 ring-offset-2 ring-offset-white rounded-sm;
+    @apply outline-none ring-2 ring-ring/50 ring-offset-2 ring-offset-background rounded-sm;
   }
 
   ::selection {
-    @apply bg-clay-100 text-ink-900;
+    background-color: oklch(0.55 0.2 145 / 0.2);
+    color: oklch(0.12 0.005 260);
   }
 
   /* Subtle scrollbar */
@@ -120,10 +121,10 @@
     height: 10px;
   }
   ::-webkit-scrollbar-thumb {
-    @apply bg-[#b9b9b9] rounded-full border-2 border-solid border-[#eeeeee];
+    @apply bg-border rounded-full border-2 border-solid border-background;
   }
   ::-webkit-scrollbar-track {
-    @apply bg-[#eeeeee];
+    @apply bg-background;
   }
 }
 

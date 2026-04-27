@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 180">
+  <rect width="180" height="180" rx="34" fill="#0d1016"/>
+  <path d="M44 124 L74 50 H106 L136 124 H115 L108 105 H72 L65 124 Z M76 92 H104 L90 56 Z"
+        fill="#ef3434"/>
+  <text x="90" y="155" text-anchor="middle"
+        font-family="Impact, sans-serif"
+        font-weight="700"
+        font-size="18"
+        fill="#f4f5f9"
+        letter-spacing="2">FERREIRAS</text>
+</svg>

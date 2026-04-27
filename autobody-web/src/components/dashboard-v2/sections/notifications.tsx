@@ -3,8 +3,8 @@
 import { useState, useEffect, useCallback } from "react";
 import { cn } from "@/lib/utils";
 import { Bell, CheckCheck, Loader2, RefreshCw, Mail, MailOpen } from "lucide-react";
-import { getNotifications, markNotificationRead } from "@/lib/dashboard-autobody-seed";
-import type { DemoNotification } from "@/lib/dashboard-autobody-seed";
+import { getNotifications, markNotificationRead } from "@/lib/dashboard-service";
+import type { DemoNotification } from "@/lib/dashboard-service";
 
 export function NotificationsSection() {
   const [notifications, setNotifications] = useState<DemoNotification[]>([]);

@@ -20,9 +20,10 @@ import { FaqSection } from "@/components/dashboard-v2/sections/faq";
 import { SettingsSection } from "@/components/dashboard-v2/sections/settings";
 import type { Section } from "@/components/dashboard-v2/types";
 import { clearSession } from "@/lib/auth";
-import { getDashboardStats } from "@/lib/dashboard-autobody-seed";
+import { getDashboardStats } from "@/lib/dashboard-service";
 import { BarChart3, Boxes, LayoutDashboard, MessageCircle, ShoppingCart } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { Toaster } from "@/components/ui/toaster";
 
 const VALID: Section[] = [
   "overview", "inventory", "pos", "orders", "conversations", "escalations", "suppliers", "broadcast", "reviews", "reports",
@@ -88,6 +89,13 @@ function DashboardShell() {
     else url.searchParams.set("section", activeSection);
     window.history.replaceState({}, "", url.toString());
   }, [activeSection]);
+
+  // Sync activeSection when the ?section= query param changes (deep links, soft nav)
+  useEffect(() => {
+    const sectionParam = params.get("section") as Section | null;
+    const next = sectionParam && VALID.includes(sectionParam) ? sectionParam : "overview";
+    setActiveSection((prev) => (prev === next ? prev : next));
+  }, [params]);
 
   const toggleDarkMode = useCallback(() => {
     const next = !darkMode;
@@ -186,6 +194,7 @@ function DashboardShell() {
           </div>
         </nav>
       </div>
+      <Toaster />
     </div>
   );
 }

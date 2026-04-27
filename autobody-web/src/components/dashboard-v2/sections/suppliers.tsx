@@ -4,6 +4,7 @@ import { ClipboardCheck, Truck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { inventoryItems, suppliers } from "@/lib/autobody-ops-demo-data";
+import { toast } from "@/lib/toast";
 
 export function SuppliersSection() {
   const reorderItems = inventoryItems.filter((item) => item.stock <= item.reorderAt);
@@ -31,7 +32,17 @@ export function SuppliersSection() {
               <span className="rounded-lg bg-secondary p-3">Lead time<br /><b>{supplier.leadTime}</b></span>
               <span className="rounded-lg bg-secondary p-3">Open POs<br /><b>{supplier.openOrders}</b></span>
             </div>
-            <Button variant="outline" size="sm" className="mt-5 rounded-lg">
+            <Button
+              variant="outline"
+              size="sm"
+              className="mt-5 rounded-lg"
+              onClick={() =>
+                toast.success(
+                  `PO drafted for ${supplier.name}`,
+                  `${supplier.openOrders + 1} open purchase order${supplier.openOrders + 1 === 1 ? "" : "s"} · lead time ${supplier.leadTime}.`,
+                )
+              }
+            >
               <Truck className="h-4 w-4" />
               Create purchase order
             </Button>

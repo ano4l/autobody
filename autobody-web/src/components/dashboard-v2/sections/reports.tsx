@@ -5,10 +5,10 @@ import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
   PieChart, Pie, Cell, LineChart, Line,
 } from "recharts";
-import { Loader2, RefreshCw } from "lucide-react";
+import { BarChart3, Loader2, RefreshCw } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { getReports } from "@/lib/dashboard-autobody-seed";
-import type { ReportsPayload } from "@/lib/dashboard-autobody-seed";
+import { getReports } from "@/lib/dashboard-service";
+import type { ReportsPayload } from "@/lib/dashboard-service";
 import { inventoryItems } from "@/lib/autobody-ops-demo-data";
 
 const COLORS = [
@@ -71,11 +71,15 @@ export function ReportsSection() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col gap-4 xl:flex-row xl:items-center xl:justify-between">
         <div>
-          <h2 className="text-lg font-semibold text-foreground">Reports & Analytics</h2>
-          <p className="text-sm text-muted-foreground mt-0.5">
-            Sales and order insights across all branches
+          <div className="flex items-center gap-2 text-xs font-medium uppercase tracking-wide text-muted-foreground">
+            <BarChart3 className="h-4 w-4" />
+            Ferreira&apos;s Analytics
+          </div>
+          <h2 className="mt-1 text-xl font-semibold text-foreground">Reports &amp; Analytics</h2>
+          <p className="mt-0.5 text-sm text-muted-foreground">
+            Sales and order insights across all branches and channels.
           </p>
         </div>
         <button
@@ -88,22 +92,27 @@ export function ReportsSection() {
 
       <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
         {[
-          { label: "Total Orders", value: String(data.totalOrders) },
-          { label: "Total Revenue (ZAR)", value: data.totalRevenue.toLocaleString("en", { minimumFractionDigits: 2 }) },
-          { label: "Avg Order Value", value: data.averageOrderValue.toLocaleString("en", { minimumFractionDigits: 2 }) },
-          { label: "Fulfillment Rate", value: `${data.fulfillmentRate}%` },
-        ].map((stat) => (
-          <div key={stat.label} className="bg-card border border-border rounded-xl p-5">
-            <p className="text-sm text-muted-foreground">{stat.label}</p>
-            <p className="text-2xl font-bold text-foreground mt-1">{stat.value}</p>
+          { label: "Total Orders", value: String(data.totalOrders), caption: "All time across branches" },
+          { label: "Total Revenue", value: `R ${data.totalRevenue.toLocaleString("en-ZA", { maximumFractionDigits: 0 })}`, caption: "ZAR recognised revenue" },
+          { label: "Avg Order Value", value: `R ${data.averageOrderValue.toLocaleString("en-ZA", { maximumFractionDigits: 0 })}`, caption: "Per transaction" },
+          { label: "Fulfillment Rate", value: `${data.fulfillmentRate}%`, caption: "Orders shipped on time" },
+        ].map((stat, i) => (
+          <div
+            key={stat.label}
+            className="bg-card border border-border rounded-xl p-5 shadow-sm animate-in fade-in slide-in-from-bottom-4"
+            style={{ animationDelay: `${i * 80}ms`, animationFillMode: "both" }}
+          >
+            <p className="text-xs text-muted-foreground">{stat.label}</p>
+            <p className="text-2xl font-semibold text-foreground mt-2">{stat.value}</p>
+            <p className="text-xs text-muted-foreground mt-1">{stat.caption}</p>
           </div>
         ))}
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="bg-card border border-border rounded-xl p-5">
+        <div className="bg-card border border-border rounded-xl p-5 shadow-sm">
           <h3 className="text-base font-semibold text-foreground mb-4">Revenue by Branch</h3>
-          <div className="h-[280px]">
+          <div className="h-[220px] sm:h-[280px]">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={byBranch}>
                 <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" vertical={false} />
@@ -116,9 +125,9 @@ export function ReportsSection() {
           </div>
         </div>
 
-        <div className="bg-card border border-border rounded-xl p-5">
+        <div className="bg-card border border-border rounded-xl p-5 shadow-sm">
           <h3 className="text-base font-semibold text-foreground mb-4">Orders by Source</h3>
-          <div className="h-[280px]">
+          <div className="h-[220px] sm:h-[280px]">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
                 <Pie data={bySource} cx="50%" cy="50%" innerRadius={60} outerRadius={100} dataKey="value" nameKey="name" paddingAngle={3}>
@@ -141,9 +150,9 @@ export function ReportsSection() {
         </div>
       </div>
 
-      <div className="bg-card border border-border rounded-xl p-5">
+      <div className="bg-card border border-border rounded-xl p-5 shadow-sm">
         <h3 className="text-base font-semibold text-foreground mb-4">Orders Over Time</h3>
-        <div className="h-[280px]">
+        <div className="h-[240px] sm:h-[280px]">
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={overTime}>
               <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" vertical={false} />
@@ -158,7 +167,7 @@ export function ReportsSection() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="bg-card border border-border rounded-xl p-5">
+        <div className="bg-card border border-border rounded-xl p-5 shadow-sm">
           <h3 className="text-base font-semibold text-foreground mb-4">Top-Moving Parts</h3>
           <div className="space-y-3">
             {topMoving.map((item) => (
@@ -169,7 +178,7 @@ export function ReportsSection() {
             ))}
           </div>
         </div>
-        <div className="bg-card border border-border rounded-xl p-5">
+        <div className="bg-card border border-border rounded-xl p-5 shadow-sm">
           <h3 className="text-base font-semibold text-foreground mb-4">Dead Stock Watch</h3>
           <div className="space-y-3">
             {deadStock.map((item) => (
@@ -180,7 +189,7 @@ export function ReportsSection() {
             ))}
           </div>
         </div>
-        <div className="bg-card border border-border rounded-xl p-5">
+        <div className="bg-card border border-border rounded-xl p-5 shadow-sm">
           <h3 className="text-base font-semibold text-foreground mb-4">Gross Margin Per Item</h3>
           <div className="space-y-3">
             {inventoryItems.slice(0, 4).map((item) => {

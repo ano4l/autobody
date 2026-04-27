@@ -115,3 +115,38 @@ export const api = {
   del: <T,>(path: string, opts?: RequestOptions) => request<T>("DELETE", path, opts),
   raw: request,
 };
+
+// ── Auth-specific helpers ────────────────────────────────────────────────────
+// Real-mode login. Throws ApiError on 4xx/5xx so the caller can surface the
+// backend's message (e.g. "Bad credentials"). Does not persist the session —
+// that's the caller's responsibility via saveSession().
+export async function apiLogin(email: string, password: string): Promise<LoginResponse> {
+  return api.post<LoginResponse>(
+    "/api/auth/login",
+    { email: email.trim().toLowerCase(), password },
+    { auth: false },
+  );
+}
+
+// ── Error helpers ────────────────────────────────────────────────────────────
+// `request()` already attempts a refresh on 401, so a 401 reaching the caller
+// means the refresh failed and the session is gone. Sections use this to
+// trigger a redirect to /login.
+export function isAuthError(err: unknown): boolean {
+  return err instanceof ApiError && err.status === 401;
+}
+
+// Convert any thrown value into a short, user-facing string. Network errors
+// from `fetch` show up as TypeErrors with a generic message, so we surface a
+// friendlier "couldn't reach the server" line in that case.
+export function describeApiError(err: unknown): string {
+  if (err instanceof ApiError) {
+    if (err.status >= 500) return "The server hit an error. Please try again.";
+    return err.message || `Request failed (${err.status})`;
+  }
+  if (err instanceof TypeError) {
+    return "Couldn't reach the server. Check your connection and try again.";
+  }
+  if (err instanceof Error && err.message) return err.message;
+  return "Something went wrong.";
+}

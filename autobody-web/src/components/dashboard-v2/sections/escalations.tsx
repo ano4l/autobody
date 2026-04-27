@@ -4,6 +4,7 @@ import { useState } from "react";
 import { AlertTriangle, MessageCircle, PhoneCall, UserCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { toast } from "@/lib/toast";
 
 const escalations = [
   { id: "ESC-204", customer: "Mandla Dlamini", vehicle: "VW Polo 2021", issue: "Bot could not confirm left/right headlight fitment.", priority: "Urgent", age: "8 min", owner: "Unassigned" },
@@ -47,15 +48,40 @@ export function EscalationsSection() {
                 <span className="rounded-lg bg-secondary p-2">Owner: {isClaimed ? "You" : item.owner}</span>
               </div>
               <div className="mt-5 grid grid-cols-3 gap-2">
-                <Button size="sm" className="rounded-lg" onClick={() => setClaimed((prev) => [...new Set([...prev, item.id])])}>
+                <Button
+                  size="sm"
+                  className="rounded-lg"
+                  onClick={() => {
+                    if (isClaimed) {
+                      toast.info("Already taken over", `${item.id} is on your queue.`);
+                      return;
+                    }
+                    setClaimed((prev) => [...new Set([...prev, item.id])]);
+                    toast.success("Escalation claimed", `${item.id} — ${item.customer} is now on your queue.`);
+                  }}
+                >
                   <UserCheck className="h-4 w-4" />
                   Take over
                 </Button>
-                <Button variant="secondary" size="sm" className="rounded-lg">
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  className="rounded-lg"
+                  onClick={() =>
+                    toast.info("Opening WhatsApp", `Routing to ${item.customer} on the conversations panel.`)
+                  }
+                >
                   <MessageCircle className="h-4 w-4" />
                   Chat
                 </Button>
-                <Button variant="outline" size="sm" className="rounded-lg">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="rounded-lg"
+                  onClick={() =>
+                    toast.info("Calling", `Dialing ${item.customer} via the desk softphone.`)
+                  }
+                >
                   <PhoneCall className="h-4 w-4" />
                   Call
                 </Button>

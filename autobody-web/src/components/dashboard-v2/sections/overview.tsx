@@ -20,9 +20,12 @@ import {
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { getDashboardStats, getRecentOrders } from "@/lib/dashboard-autobody-seed";
+import { ErrorState } from "@/components/ui/error-state";
+import { getDashboardStats, getRecentOrders } from "@/lib/dashboard-service";
 import { inventoryItems, suppliers } from "@/lib/autobody-ops-demo-data";
-import type { DashboardStats, Order } from "@/lib/dashboard-autobody-seed";
+import type { DashboardStats, Order } from "@/lib/dashboard-service";
+import { describeApiError, isAuthError } from "@/lib/api";
+import { redirectToLogin } from "@/lib/auth";
 import type { Section } from "../types";
 import { cn } from "@/lib/utils";
 
@@ -77,13 +80,21 @@ export function OverviewSection({ onNavigate }: OverviewProps) {
   const [data, setData] = useState<DashboardStats | null>(null);
   const [recent, setRecent] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   const load = useCallback(async () => {
     setLoading(true);
+    setError(null);
     try {
       const [dash, orders] = await Promise.all([getDashboardStats(), getRecentOrders(8)]);
       setData(dash);
       setRecent(orders);
+    } catch (err) {
+      if (isAuthError(err)) {
+        redirectToLogin();
+        return;
+      }
+      setError(describeApiError(err));
     } finally {
       setLoading(false);
     }
@@ -110,6 +121,10 @@ export function OverviewSection({ onNavigate }: OverviewProps) {
         <div className="h-8 w-8 animate-spin rounded-full border-2 border-accent border-t-transparent" />
       </div>
     );
+  }
+
+  if (error) {
+    return <ErrorState message={error} onRetry={load} />;
   }
 
   return (
@@ -149,10 +164,14 @@ export function OverviewSection({ onNavigate }: OverviewProps) {
             { title: "Inventory held", value: money(inventorySummary.value), caption: `${inventorySummary.units} units in stock`, icon: Package, tone: "text-chart-1" },
             { title: "Stock risk", value: String(inventorySummary.low.length), caption: "Below reorder point", icon: AlertTriangle, tone: "text-destructive" },
             { title: "Gross margin held", value: money(inventorySummary.grossMargin), caption: "Current inventory margin", icon: TrendingUp, tone: "text-success" },
-          ].map((metric) => {
+          ].map((metric, i) => {
             const Icon = metric.icon;
             return (
-              <div key={metric.title} className="rounded-xl border border-border bg-background p-4">
+              <div
+                key={metric.title}
+                className="rounded-xl border border-border bg-background p-4 animate-in fade-in slide-in-from-bottom-4"
+                style={{ animationDelay: `${i * 80}ms`, animationFillMode: "both" }}
+              >
                 <div className="flex items-center justify-between">
                   <p className="text-xs text-muted-foreground">{metric.title}</p>
                   <Icon className={cn("h-4 w-4", metric.tone)} />
