@@ -27,7 +27,7 @@ export function SettingsSection() {
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <Field label="Full Name" defaultValue="Jan Ferreira" />
+              <Field label="Full Name" defaultValue="" />
               <Field label="Email" defaultValue="jan@ferreiras.local" type="email" />
               <Field label="Role" defaultValue="Administrator" readOnly />
               <Field label="Branch" defaultValue="All Branches" readOnly />

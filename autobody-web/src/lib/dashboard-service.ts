@@ -56,6 +56,21 @@ interface DashboardStatsDTO {
   lowStockCount: number;
 }
 
+export type PosiboltSyncStatusValue = "NOT_CONFIGURED" | "IDLE" | "RUNNING" | "SUCCESS" | "FAILED";
+
+export interface PosiboltSyncStatus {
+  configured: boolean;
+  enabled: boolean;
+  status: PosiboltSyncStatusValue;
+  lastStartedAt: string | null;
+  lastFinishedAt: string | null;
+  lastSuccessfulSyncAt: string | null;
+  lastError: string | null;
+  productsSynced: number;
+  stockSynced: number;
+  ordersSynced: number;
+}
+
 type OrderSourceBackend = "WALK_IN" | "SHOPIFY" | "WHATSAPP" | "WEB";
 type OrderStatusBackend = "PENDING" | "CONFIRMED" | "FULFILLED" | "CANCELLED" | "REFUNDED";
 
@@ -191,6 +206,28 @@ export async function getDashboardStats(): Promise<DashboardStats> {
   if (isDemoMode()) return demo.getDashboardStats();
   const dto = await api.get<DashboardStatsDTO>("/api/dashboard/stats");
   return mapStats(dto);
+}
+
+export async function getPosiboltSyncStatus(): Promise<PosiboltSyncStatus> {
+  if (isDemoMode()) {
+    return {
+      configured: false,
+      enabled: false,
+      status: "NOT_CONFIGURED",
+      lastStartedAt: null,
+      lastFinishedAt: null,
+      lastSuccessfulSyncAt: null,
+      lastError: "Demo mode is using local seed data. Enable real auth mode and POSibolt env vars to connect.",
+      productsSynced: 0,
+      stockSynced: 0,
+      ordersSynced: 0,
+    };
+  }
+  return api.get<PosiboltSyncStatus>("/api/posibolt/status");
+}
+
+export async function triggerPosiboltSync(): Promise<PosiboltSyncStatus> {
+  return api.post<PosiboltSyncStatus>("/api/posibolt/sync");
 }
 
 export async function getOrders(

@@ -139,14 +139,14 @@ export function DashboardSidebar({
         {!collapsed && (
           <div className="px-4 py-3 flex items-center gap-3">
             <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-accent/80 to-chart-1 flex items-center justify-center text-xs font-bold text-accent-foreground shrink-0">
-              JF
+              --
             </div>
             <div className="flex-1 min-w-0">
               <p className="text-xs font-semibold text-sidebar-foreground truncate">
-                Jan Ferreira
+                No user selected
               </p>
               <p className="text-[10px] text-muted-foreground truncate">
-                jan@ferreiras.local
+                Sign in to load profile
               </p>
             </div>
           </div>

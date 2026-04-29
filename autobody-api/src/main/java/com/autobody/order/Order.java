@@ -46,6 +46,9 @@ public class Order extends AuditableEntity {
     @Column(name = "shopify_order_id", length = 100)
     private String shopifyOrderId;
 
+    @Column(name = "posibolt_order_id", length = 100)
+    private String posiboltOrderId;
+
     @Column(columnDefinition = "TEXT")
     private String notes;
 

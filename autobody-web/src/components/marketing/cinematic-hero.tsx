@@ -174,12 +174,6 @@ export function CinematicHero() {
               className="bg-[#0d1016] border border-white/10 px-4 py-3 text-sm text-white"
             >
               <option value="">1. Select Make</option>
-              <option>Toyota</option>
-              <option>Volkswagen</option>
-              <option>BMW</option>
-              <option>Mercedes-Benz</option>
-              <option>Ford</option>
-              <option>Hyundai</option>
             </select>
             <select
               value={model}
@@ -187,13 +181,6 @@ export function CinematicHero() {
               className="bg-[#0d1016] border border-white/10 px-4 py-3 text-sm text-white"
             >
               <option value="">2. Select Model</option>
-              <option>Corolla</option>
-              <option>Hilux</option>
-              <option>Polo</option>
-              <option>3 Series</option>
-              <option>C-Class</option>
-              <option>Ranger</option>
-              <option>i20</option>
             </select>
             <select
               value={year}

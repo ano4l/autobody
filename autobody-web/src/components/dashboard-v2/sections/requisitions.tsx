@@ -391,7 +391,7 @@ export function RequisitionsSection() {
                     value={draft.items}
                     onChange={(event) => setDraft((current) => ({ ...current, items: event.target.value }))}
                     rows={4}
-                    placeholder={"Front Bumper (Toyota Hilux)\nHeadlight Assembly LH"}
+                    placeholder={"Enter requested parts"}
                     className="w-full rounded-lg border border-border bg-background p-3 text-sm outline-none focus:border-accent"
                   />
                 </label>

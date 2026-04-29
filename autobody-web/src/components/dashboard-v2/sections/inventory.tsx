@@ -23,20 +23,20 @@ import {
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
-import { inventoryItems, stockMovements, suppliers, type InventoryItem } from "@/lib/autobody-ops-demo-data";
+import { PART_IMAGES, inventoryItems, stockMovements, suppliers, type InventoryItem } from "@/lib/autobody-ops-demo-data";
 import { toast } from "@/lib/toast";
 
-const categories = ["All", "Bumpers", "Headlights", "Fenders", "Tail Lights", "Grilles", "Mirrors"];
-const brands = ["All", "Toyota", "Volkswagen", "BMW", "Ford", "Mercedes-Benz", "Hyundai"];
+const categories = ["All"];
+const brands = ["All"];
 const conditions: Array<"All" | InventoryItem["condition"]> = ["All", "New", "Used", "OEM", "Aftermarket"];
 const views = ["All stock", "Low stock", "Fast movers", "High value", "Dead stock"];
 
 const blankDraft = {
   sku: "",
   name: "",
-  brand: "Toyota",
+  brand: "",
   model: "",
-  category: "Bumpers",
+  category: "",
   condition: "Aftermarket" as InventoryItem["condition"],
   price: 0,
   cost: 0,
@@ -45,7 +45,7 @@ const blankDraft = {
   supplier: "",
   location: "",
   compatibility: "",
-  image: inventoryItems[0].image,
+  image: PART_IMAGES.placeholder,
 };
 
 function formatCurrency(value: number) {
@@ -115,7 +115,7 @@ export function InventorySection() {
   };
 
   const receiveStock = (item: InventoryItem) => {
-    updateItem(item.id, { stock: item.stock + 5, lastMovement: "Receipt by Jan Ferreira, just now" });
+    updateItem(item.id, { stock: item.stock + 5, lastMovement: "Receipt added just now" });
     toast.success("Stock received", `Added 5 units of ${item.name} (now ${item.stock + 5} on hand).`);
   };
 
@@ -255,26 +255,26 @@ export function InventorySection() {
                 <div className="mt-3 grid gap-3 md:grid-cols-2">
                   <label className="space-y-1.5 text-sm">
                     <span className="font-medium">Part name</span>
-                    <input value={draft.name} onChange={(event) => setDraft({ ...draft, name: event.target.value })} placeholder="Toyota Corolla Front Bumper" className="h-10 w-full rounded-lg border border-border bg-card px-3 text-sm outline-none focus:border-accent" />
+                    <input value={draft.name} onChange={(event) => setDraft({ ...draft, name: event.target.value })} placeholder="Part name" className="h-10 w-full rounded-lg border border-border bg-card px-3 text-sm outline-none focus:border-accent" />
                   </label>
                   <label className="space-y-1.5 text-sm">
                     <span className="font-medium">SKU / barcode</span>
-                    <input value={draft.sku} onChange={(event) => setDraft({ ...draft, sku: event.target.value })} placeholder="TY-COR-20-FB" className="h-10 w-full rounded-lg border border-border bg-card px-3 text-sm outline-none focus:border-accent" />
+                    <input value={draft.sku} onChange={(event) => setDraft({ ...draft, sku: event.target.value })} placeholder="SKU / barcode" className="h-10 w-full rounded-lg border border-border bg-card px-3 text-sm outline-none focus:border-accent" />
                   </label>
                   <label className="space-y-1.5 text-sm">
                     <span className="font-medium">Vehicle brand</span>
                     <select value={draft.brand} onChange={(event) => setDraft({ ...draft, brand: event.target.value })} className="h-10 w-full rounded-lg border border-border bg-card px-3 text-sm outline-none focus:border-accent">
-                      {brands.filter((item) => item !== "All").map((item) => <option key={item}>{item}</option>)}
+                      <option value="">Select brand</option>
                     </select>
                   </label>
                   <label className="space-y-1.5 text-sm">
                     <span className="font-medium">Model / year range</span>
-                    <input value={draft.model} onChange={(event) => setDraft({ ...draft, model: event.target.value })} placeholder="Corolla 2020-2024" className="h-10 w-full rounded-lg border border-border bg-card px-3 text-sm outline-none focus:border-accent" />
+                    <input value={draft.model} onChange={(event) => setDraft({ ...draft, model: event.target.value })} placeholder="Model / year range" className="h-10 w-full rounded-lg border border-border bg-card px-3 text-sm outline-none focus:border-accent" />
                   </label>
                   <label className="space-y-1.5 text-sm">
                     <span className="font-medium">Category</span>
                     <select value={draft.category} onChange={(event) => setDraft({ ...draft, category: event.target.value })} className="h-10 w-full rounded-lg border border-border bg-card px-3 text-sm outline-none focus:border-accent">
-                      {categories.filter((item) => item !== "All").map((item) => <option key={item}>{item}</option>)}
+                      <option value="">Select category</option>
                     </select>
                   </label>
                   <label className="space-y-1.5 text-sm">
@@ -285,7 +285,7 @@ export function InventorySection() {
                   </label>
                   <label className="space-y-1.5 text-sm md:col-span-2">
                     <span className="font-medium">Compatibility / fitment notes</span>
-                    <input value={draft.compatibility} onChange={(event) => setDraft({ ...draft, compatibility: event.target.value })} placeholder="Corolla Quest, Corolla Sedan" className="h-10 w-full rounded-lg border border-border bg-card px-3 text-sm outline-none focus:border-accent" />
+                    <input value={draft.compatibility} onChange={(event) => setDraft({ ...draft, compatibility: event.target.value })} placeholder="Compatibility / fitment notes" className="h-10 w-full rounded-lg border border-border bg-card px-3 text-sm outline-none focus:border-accent" />
                   </label>
                 </div>
               </section>
@@ -314,11 +314,11 @@ export function InventorySection() {
                   </label>
                   <label className="space-y-1.5 text-sm">
                     <span className="font-medium">Supplier</span>
-                    <input value={draft.supplier} onChange={(event) => setDraft({ ...draft, supplier: event.target.value })} placeholder="Prime Panels SA" className="h-10 w-full rounded-lg border border-border bg-card px-3 text-sm outline-none focus:border-accent" />
+                    <input value={draft.supplier} onChange={(event) => setDraft({ ...draft, supplier: event.target.value })} placeholder="Supplier name" className="h-10 w-full rounded-lg border border-border bg-card px-3 text-sm outline-none focus:border-accent" />
                   </label>
                   <label className="space-y-1.5 text-sm">
                     <span className="font-medium">Warehouse bin</span>
-                    <input value={draft.location} onChange={(event) => setDraft({ ...draft, location: event.target.value })} placeholder="Aisle A2" className="h-10 w-full rounded-lg border border-border bg-card px-3 text-sm outline-none focus:border-accent" />
+                    <input value={draft.location} onChange={(event) => setDraft({ ...draft, location: event.target.value })} placeholder="Warehouse bin" className="h-10 w-full rounded-lg border border-border bg-card px-3 text-sm outline-none focus:border-accent" />
                   </label>
                 </div>
               </section>

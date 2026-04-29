@@ -6,15 +6,11 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "@/lib/toast";
 
-const history = [
-  { title: "Weekend bumper clearance", audience: "Business WhatsApp group", sent: "24 Apr 2026 08:00", reach: "312 delivered" },
-  { title: "New Ranger tail light stock", audience: "Panelbeaters", sent: "22 Apr 2026 13:20", reach: "86 delivered" },
-  { title: "OEM lighting arrivals", audience: "Resellers", sent: "19 Apr 2026 09:10", reach: "144 delivered" },
-];
+const history: { title: string; audience: string; sent: string; reach: string }[] = [];
 
 export function BroadcastSection() {
-  const [title, setTitle] = useState("Toyota Corolla bumper stock just landed");
-  const [message, setMessage] = useState("Fresh aftermarket front bumpers available today. Reply with vehicle year and colour prep requirements for a fast quote.");
+  const [title, setTitle] = useState("");
+  const [message, setMessage] = useState("");
   const [sent, setSent] = useState(false);
 
   const send = () => {
@@ -59,7 +55,7 @@ export function BroadcastSection() {
               <Send className="h-4 w-4" />
               Post to WhatsApp Group
             </Button>
-            {sent ? <p className="text-sm font-medium text-success">Demo broadcast queued and marked as delivered.</p> : null}
+            {sent ? <p className="text-sm font-medium text-success">Broadcast queued.</p> : null}
           </div>
         </div>
 

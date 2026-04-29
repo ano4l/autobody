@@ -61,7 +61,7 @@ export function RequisitionForm({ open, onClose }: RequisitionFormProps) {
       category,
       branch,
       amount: Number(amount) || 0,
-      purpose: purpose || "Demo requisition",
+      purpose: purpose || "Requisition",
       needed_by: neededBy ? new Date(neededBy).toISOString() : undefined,
     });
     setSubmitting(false);
@@ -122,7 +122,7 @@ export function RequisitionForm({ open, onClose }: RequisitionFormProps) {
                 <input
                   value={project_name}
                   onChange={(e) => setProjectName(e.target.value)}
-                  placeholder="e.g. BMW 320i Front Bumper Replacement"
+                  placeholder="Describe the request"
                   className="ds-input"
                 />
               </Field>

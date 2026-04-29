@@ -268,8 +268,8 @@ function ShopBody() {
 
             {visible.length === 0 ? (
               <div className="grid place-items-center py-20 text-center">
-                <p className="font-display text-xl uppercase">No products match</p>
-                <p className="mt-2 text-sm text-[#6b6f7a]">Try adjusting your filters.</p>
+                <p className="font-display text-xl uppercase">No products available</p>
+                <p className="mt-2 text-sm text-[#6b6f7a]">The catalog is empty until live inventory is synced.</p>
                 <button
                   onClick={clearFilters}
                   className="mt-5 bg-[#ef3434] px-6 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-white hover:bg-[#f04444]"

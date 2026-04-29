@@ -6,11 +6,15 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "@/lib/toast";
 
-const escalations = [
-  { id: "ESC-204", customer: "Mandla Dlamini", vehicle: "VW Polo 2021", issue: "Bot could not confirm left/right headlight fitment.", priority: "Urgent", age: "8 min", owner: "Unassigned" },
-  { id: "ESC-199", customer: "AutoFix Panelbeaters", vehicle: "Toyota Corolla Quest", issue: "Bulk quote requested for six bumpers and three bonnets.", priority: "High", age: "24 min", owner: "Nadia" },
-  { id: "ESC-187", customer: "Riaan Jacobs", vehicle: "Ford Ranger 2019", issue: "Customer sent accident photos and needs same-day availability.", priority: "High", age: "41 min", owner: "Jan" },
-];
+const escalations: {
+  id: string;
+  customer: string;
+  vehicle: string;
+  issue: string;
+  priority: "Urgent" | "High";
+  age: string;
+  owner: string;
+}[] = [];
 
 export function EscalationsSection() {
   const [claimed, setClaimed] = useState<string[]>([]);
@@ -25,7 +29,7 @@ export function EscalationsSection() {
           </p>
         </div>
         <div className="rounded-xl border border-destructive/20 bg-destructive/5 px-4 py-3 text-sm text-destructive">
-          {escalations.length} active escalations · oldest waiting 41 min
+          {escalations.length} active escalations
         </div>
       </div>
 

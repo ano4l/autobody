@@ -8,6 +8,8 @@ import { CATEGORIES } from "@/lib/products";
 export function CategoryRail() {
   const scrollerRef = useRef<HTMLDivElement>(null);
 
+  if (CATEGORIES.length === 0) return null;
+
   const scrollBy = (delta: number) => {
     scrollerRef.current?.scrollBy({ left: delta, behavior: "smooth" });
   };

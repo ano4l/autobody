@@ -36,7 +36,7 @@ export function PosSection() {
   const [query, setQuery] = useState("");
   const [cart, setCart] = useState<CartItem[]>([]);
   const [payment, setPayment] = useState<Payment>("Card");
-  const [lastSale, setLastSale] = useState<string | null>("FS-1048");
+  const [lastSale, setLastSale] = useState<string | null>(null);
   const [captureDetails, setCaptureDetails] = useState(true);
   const [customer, setCustomer] = useState({ name: "", phone: "", vehicle: "", vin: "", notes: "" });
 
@@ -108,8 +108,8 @@ export function PosSection() {
 
       <div className="grid gap-3 sm:grid-cols-4">
         {[
-          { label: "Terminal", value: "JHB-01", caption: "Active session" },
-          { label: "Cashier", value: "Jan Ferreira", caption: "Logged in" },
+          { label: "Terminal", value: "Not assigned", caption: "No active session" },
+          { label: "Cashier", value: "Not assigned", caption: "No user selected" },
           { label: "Last Receipt", value: lastSale ?? "Pending", caption: "Previous sale" },
           { label: "Cart", value: `${cartUnits} units`, caption: `R ${total.toLocaleString("en-ZA", { maximumFractionDigits: 0 })} total` },
         ].map((stat, i) => (

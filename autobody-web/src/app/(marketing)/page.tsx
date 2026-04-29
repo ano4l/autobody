@@ -42,6 +42,30 @@ export default function MarketingHome() {
   const [subscribed, setSubscribed] = useState(false);
   const openDrawer = useCart((s) => s.openDrawer);
 
+  if (PRODUCTS.length === 0) {
+    return (
+      <>
+        <CinematicHero />
+        <section id="featured" className="bg-[#f4f5f9] py-16">
+          <div className="mx-auto max-w-[1400px] px-5 text-center lg:px-8">
+            <p className="section-kicker">Catalog coming from POSibolt</p>
+            <h2 className="mt-2 font-display text-3xl lg:text-4xl">No Products Loaded</h2>
+            <p className="mx-auto mt-3 max-w-2xl text-sm leading-7 text-[#6b6f7a]">
+              The site catalog is empty until live inventory is synced.
+            </p>
+            <Link
+              href={"/shop" as "/shop"}
+              className="mt-6 inline-block bg-[#ef3434] px-6 py-3 text-xs font-semibold uppercase tracking-[0.18em] text-white hover:bg-[#f04444]"
+            >
+              View Catalog
+            </Link>
+          </div>
+        </section>
+        <button onClick={openDrawer} className="hidden" aria-hidden tabIndex={-1} />
+      </>
+    );
+  }
+
   return (
     <>
       <CinematicHero />
@@ -55,7 +79,7 @@ export default function MarketingHome() {
               <p className="section-kicker">Synced with the POS dashboard</p>
               <h2 className="mt-2 font-display text-3xl lg:text-4xl">Featured Autobody Parts</h2>
               <p className="mx-auto mt-3 max-w-2xl text-sm leading-7 text-[#6b6f7a]">
-                Shop the same demo catalogue used by inventory, POS, quote requests, and management reports.
+                Products will appear here after live inventory is synced.
               </p>
             </div>
             <div className="mt-6 flex flex-wrap justify-center gap-6 border-b border-[#e6e8ed]">

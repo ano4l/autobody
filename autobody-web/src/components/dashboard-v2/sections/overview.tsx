@@ -8,9 +8,11 @@ import {
   Boxes,
   CheckCircle2,
   Clock3,
+  DatabaseZap,
   MessageCircle,
   Package,
   ReceiptText,
+  RefreshCw,
   ShieldAlert,
   ShoppingCart,
   TrendingUp,
@@ -21,9 +23,9 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ErrorState } from "@/components/ui/error-state";
-import { getDashboardStats, getRecentOrders } from "@/lib/dashboard-service";
+import { getDashboardStats, getPosiboltSyncStatus, getRecentOrders, triggerPosiboltSync } from "@/lib/dashboard-service";
 import { inventoryItems, suppliers } from "@/lib/autobody-ops-demo-data";
-import type { DashboardStats, Order } from "@/lib/dashboard-service";
+import type { DashboardStats, Order, PosiboltSyncStatus } from "@/lib/dashboard-service";
 import { describeApiError, isAuthError } from "@/lib/api";
 import { redirectToLogin } from "@/lib/auth";
 import type { Section } from "../types";
@@ -41,31 +43,13 @@ const statusTone: Record<string, "amber" | "clay" | "leaf" | "rust" | "neutral">
   REFUNDED: "neutral",
 };
 
-const branchPerformance = [
-  { branch: "Pretoria", sales: 68240, orders: 32, fulfilment: 94 },
-  { branch: "Johannesburg", sales: 47180, orders: 21, fulfilment: 91 },
-  { branch: "Online / WhatsApp", sales: 38950, orders: 28, fulfilment: 88 },
-];
+const branchPerformance: { branch: string; sales: number; orders: number; fulfilment: number }[] = [];
 
-const operationalQueue = [
-  { label: "Orders awaiting picking", value: 12, tone: "amber" as const, owner: "Fulfilment" },
-  { label: "WhatsApp conversations open", value: 23, tone: "clay" as const, owner: "Sales desk" },
-  { label: "Escalated customer threads", value: 3, tone: "rust" as const, owner: "Manager" },
-  { label: "Supplier purchase orders", value: 6, tone: "neutral" as const, owner: "Procurement" },
-];
+const operationalQueue: { label: string; value: number; tone: "amber" | "clay" | "rust" | "neutral"; owner: string }[] = [];
 
-const channelMix = [
-  { source: "Walk-in POS", value: 42, amount: 54400 },
-  { source: "WhatsApp", value: 31, amount: 40150 },
-  { source: "Website", value: 18, amount: 23300 },
-  { source: "Trade accounts", value: 9, amount: 11650 },
-];
+const channelMix: { source: string; value: number; amount: number }[] = [];
 
-const riskRegister = [
-  { title: "VW Polo headlights below reorder", detail: "3 units available against 31 monthly sales", severity: "High" },
-  { title: "Mercedes grille single unit remaining", detail: "Prestige German Parts lead time is 5 days", severity: "Medium" },
-  { title: "Three escalations need takeover", detail: "Bot confidence below threshold on fitment questions", severity: "High" },
-];
+const riskRegister: { title: string; detail: string; severity: "High" | "Medium" }[] = [];
 
 function money(value: number) {
   return `R ${value.toLocaleString("en-ZA", { maximumFractionDigits: 0 })}`;
@@ -79,16 +63,19 @@ function timeAgo(date: string) {
 export function OverviewSection({ onNavigate }: OverviewProps) {
   const [data, setData] = useState<DashboardStats | null>(null);
   const [recent, setRecent] = useState<Order[]>([]);
+  const [posibolt, setPosibolt] = useState<PosiboltSyncStatus | null>(null);
   const [loading, setLoading] = useState(true);
+  const [syncing, setSyncing] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const load = useCallback(async () => {
     setLoading(true);
     setError(null);
     try {
-      const [dash, orders] = await Promise.all([getDashboardStats(), getRecentOrders(8)]);
+      const [dash, orders, sync] = await Promise.all([getDashboardStats(), getRecentOrders(8), getPosiboltSyncStatus()]);
       setData(dash);
       setRecent(orders);
+      setPosibolt(sync);
     } catch (err) {
       if (isAuthError(err)) {
         redirectToLogin();
@@ -114,6 +101,40 @@ export function OverviewSection({ onNavigate }: OverviewProps) {
 
   const todaySales = data?.todaySalesTotal ?? 0;
   const avgOrderValue = recent.length > 0 ? recent.reduce((sum, order) => sum + order.total, 0) / recent.length : 0;
+  const posiboltTone =
+    posibolt?.status === "SUCCESS" ? "leaf" : posibolt?.status === "FAILED" ? "rust" : posibolt?.status === "RUNNING" ? "amber" : "neutral";
+  const posiboltLabel = posibolt?.status.replace(/_/g, " ") ?? "Unknown";
+
+  const runPosiboltSync = useCallback(async () => {
+    setSyncing(true);
+    try {
+      const sync = await triggerPosiboltSync();
+      setPosibolt(sync);
+    } catch (err) {
+      if (isAuthError(err)) {
+        redirectToLogin();
+        return;
+      }
+      setPosibolt((current) =>
+        current
+          ? { ...current, status: "FAILED", lastError: describeApiError(err) }
+          : {
+              configured: false,
+              enabled: false,
+              status: "FAILED",
+              lastStartedAt: null,
+              lastFinishedAt: null,
+              lastSuccessfulSyncAt: null,
+              lastError: describeApiError(err),
+              productsSynced: 0,
+              stockSynced: 0,
+              ordersSynced: 0,
+            },
+      );
+    } finally {
+      setSyncing(false);
+    }
+  }, []);
 
   if (loading) {
     return (
@@ -183,6 +204,46 @@ export function OverviewSection({ onNavigate }: OverviewProps) {
           })}
         </div>
       </div>
+
+      <section className="rounded-xl border border-border bg-card p-5 shadow-sm">
+        <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+          <div className="flex min-w-0 items-start gap-3">
+            <div className="grid h-10 w-10 shrink-0 place-items-center rounded-lg bg-accent/10 text-accent">
+              <DatabaseZap className="h-5 w-5" />
+            </div>
+            <div className="min-w-0">
+              <div className="flex flex-wrap items-center gap-2">
+                <h3 className="font-semibold">POSibolt Source Sync</h3>
+                <Badge tone={posiboltTone} dot>{posiboltLabel}</Badge>
+              </div>
+              <p className="mt-1 text-sm text-muted-foreground">
+                Dashboard inventory, stock, and order signals are prepared to flow from POSibolt into this operating view.
+              </p>
+              {posibolt?.lastError ? <p className="mt-2 text-xs text-destructive">{posibolt.lastError}</p> : null}
+            </div>
+          </div>
+          <div className="grid gap-2 sm:grid-cols-4 lg:min-w-[560px]">
+            {[
+              { label: "Products", value: posibolt?.productsSynced ?? 0 },
+              { label: "Stock rows", value: posibolt?.stockSynced ?? 0 },
+              { label: "Orders", value: posibolt?.ordersSynced ?? 0 },
+              {
+                label: "Last success",
+                value: posibolt?.lastSuccessfulSyncAt ? timeAgo(posibolt.lastSuccessfulSyncAt) : "Never",
+              },
+            ].map((item) => (
+              <div key={item.label} className="rounded-lg border border-border bg-background px-3 py-2">
+                <p className="text-xs text-muted-foreground">{item.label}</p>
+                <p className="mt-1 text-sm font-semibold">{item.value}</p>
+              </div>
+            ))}
+          </div>
+          <Button variant="outline" className="rounded-lg" onClick={runPosiboltSync} disabled={syncing}>
+            <RefreshCw className={cn("h-4 w-4", syncing && "animate-spin")} />
+            Sync now
+          </Button>
+        </div>
+      </section>
 
       <div className="grid gap-6 xl:grid-cols-[1.45fr_0.95fr]">
         <section className="rounded-xl border border-border bg-card shadow-sm">

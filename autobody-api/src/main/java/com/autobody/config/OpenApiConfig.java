@@ -49,6 +49,7 @@ public class OpenApiConfig {
                         "/api/conversations/**",
                         "/api/orders/**",
                         "/api/pos/**",
+                        "/api/posibolt/**",
                         "/api/dashboard/**",
                         "/api/reports/**",
                         "/api/users/**",

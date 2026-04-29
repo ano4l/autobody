@@ -30,8 +30,8 @@ export const metadata: Metadata = {
   keywords: [
     "autobody spares",
     "panel beater parts",
-    "Toyota Hilux bumper",
-    "VW Polo headlight",
+    "autobody parts",
+    "vehicle spares",
     "OEM aftermarket South Africa",
     "Pretoria autobody",
     "WhatsApp parts quote",

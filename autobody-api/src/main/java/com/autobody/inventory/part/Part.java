@@ -81,6 +81,9 @@ public class Part extends AuditableEntity {
     @Column(name = "shopify_variant_id", length = 100)
     private String shopifyVariantId;
 
+    @Column(name = "posibolt_product_id", length = 100)
+    private String posiboltProductId;
+
     @Column(nullable = false)
     @Builder.Default
     private Boolean active = Boolean.TRUE;
